@@ -43,6 +43,8 @@
     .button.secondary { border: 1px solid #e8d9d3; background: white; }
     .bot { position: relative; z-index: 1; display: grid; place-items: center; aspect-ratio: 1; border-radius: 34px; color: white; background: linear-gradient(145deg,var(--orange),#ff955f); box-shadow: 0 28px 55px rgba(238,77,45,.28); }
     .bot-face { width: 62%; padding: 22% 10%; border: 5px solid rgba(255,255,255,.8); border-radius: 30%; background: rgba(255,255,255,.17); text-align: center; font-size: clamp(38px,6vw,70px); line-height: 1; }
+    .portrait { position: relative; z-index: 1; overflow: hidden; aspect-ratio: 1; border: 10px solid white; border-radius: 34px; background: #f4e5de; box-shadow: 0 28px 55px rgba(238,77,45,.24); }
+    .portrait img { width: 100%; height: 100%; display: block; object-fit: cover; }
     section.block { padding: 84px 0 0; }
     .section-head { max-width: 720px; margin-bottom: 30px; }
     .section-head h2 { margin: 0 0 12px; font-size: clamp(30px,4vw,46px); letter-spacing: -.035em; }
@@ -60,8 +62,17 @@
     .privacy h2 { margin: 0 0 10px; font-size: 31px; }
     .privacy p { margin: 0; color: #d3d9e4; line-height: 1.7; }
     .privacy ul { margin: 0; padding-left: 20px; color: #eef1f6; line-height: 1.9; }
+    .stats { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
+    .stat { padding: 24px 18px; border: 1px solid var(--line); border-radius: 22px; background: white; box-shadow: 0 12px 34px rgba(23,32,51,.06); }
+    .stat strong { display: block; margin-bottom: 8px; color: var(--orange); font-size: clamp(28px,4vw,42px); letter-spacing: -.04em; }
+    .stat span { color: var(--muted); font-weight: 750; line-height: 1.4; }
+    .about { display: grid; grid-template-columns: .65fr 1.35fr; gap: 30px; align-items: start; padding: 38px; border: 1px solid var(--line); border-radius: 28px; background: white; box-shadow: 0 14px 38px rgba(23,32,51,.06); }
+    .about-label { color: var(--orange); font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
+    .about h2 { margin: 12px 0 0; font-size: clamp(30px,4vw,45px); letter-spacing: -.035em; }
+    .about-copy p { margin: 0 0 16px; color: var(--muted); font-size: 17px; line-height: 1.75; }
     footer { display: flex; justify-content: space-between; gap: 20px; padding: 42px 0; margin-top: 72px; color: var(--muted); border-top: 1px solid var(--line); }
-    @media (max-width: 820px) { .hero { grid-template-columns: 1fr; padding: 42px 28px; } .bot { max-width: 320px; } .grid,.flow,.privacy { grid-template-columns: 1fr; } }
+    @media (max-width: 980px) { .stats { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 820px) { .hero { grid-template-columns: 1fr; padding: 42px 28px; } .portrait { max-width: 340px; } .grid,.flow,.privacy,.about { grid-template-columns: 1fr; } }
     @media (max-width: 520px) { .wrap { width: min(100% - 20px,1120px); } nav { padding: 16px 4px; } .hero { min-height: auto; border-radius: 26px; } .nav-link { display: none; } section.block { padding-top: 62px; } footer { flex-direction: column; } }
   </style>
 </head>
@@ -83,8 +94,19 @@
             <a class="button secondary" href="https://github.com/LucasEcher-ops" target="_blank" rel="noopener noreferrer">Perfil no GitHub</a>
           </div>
         </div>
-        <div class="bot" aria-label="Ilustração abstrata do assistente"><div class="bot-face">⌁</div></div>
+        <figure class="portrait"><img src="./lucas-echer.jpg" alt="Lucas Echer durante uma atividade voluntária"></figure>
       </header>
+
+      <section class="block" aria-labelledby="impacto">
+        <div class="section-head"><h2 id="impacto">Impacto em números</h2><p>Indicadores acumulados pelo Problem Solver Bot em seis meses de atuação e evolução contínua.</p></div>
+        <div class="stats">
+          <article class="stat"><strong>150+</strong><span>usuários ativos</span></article>
+          <article class="stat"><strong>10 mil+</strong><span>tratativas realizadas</span></article>
+          <article class="stat"><strong>7</strong><span>fluxos automatizados</span></article>
+          <article class="stat"><strong>8</strong><span>setores impactados</span></article>
+          <article class="stat"><strong>3</strong><span>galpões atendidos</span></article>
+        </div>
+      </section>
 
       <section class="block" id="case">
         <div class="section-head">
@@ -120,6 +142,17 @@
           <article class="card"><span>Produto</span><h3>Descoberta e priorização</h3><p>Mapeamento de dores reais e evolução incremental baseada no uso.</p></article>
           <article class="card"><span>Engenharia</span><h3>Automação e integrações</h3><p>Orquestração de interface, regras de negócio e serviços com limites bem definidos.</p></article>
           <article class="card"><span>Qualidade</span><h3>Segurança por arquitetura</h3><p>Validação no lado confiável, controle de acesso e atenção à auditabilidade.</p></article>
+        </div>
+      </section>
+
+      <section class="block" id="sobre">
+        <div class="about">
+          <div><span class="about-label">Sobre mim</span><h2>Curiosidade que vira solução.</h2></div>
+          <div class="about-copy">
+            <p>Sou Lucas Echer, tenho 21 anos e atuo como Representante de Envio I há seis meses. Minha trajetória em tecnologia é autodidata: aprendo investigando problemas reais, testando ideias e transformando necessidades do dia a dia em ferramentas úteis.</p>
+            <p>Também sou apaixonado por trabalho voluntário. Já fiz parte da coordenação de GAP — Gestão de Atividade Pontual — cuidando de dados, feedbacks e da experiência geral dos voluntários. Essa vivência fortaleceu minha atenção às pessoas, à organização e à melhoria contínua.</p>
+            <p>Não tenho formação acadêmica ou cursos formais na área até o momento. O que apresento aqui é resultado de iniciativa, curiosidade, prática e vontade constante de aprender.</p>
+          </div>
         </div>
       </section>
     </main>
