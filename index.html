@@ -1,175 +1,377 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Portfólio profissional de Lucas Echer — automação, melhoria de processos e soluções operacionais.">
-  <title>Lucas Echer | Portfólio</title>
-  <style>
-    * { box-sizing: border-box; }
-    :root {
-      --orange: #ee4d2d;
-      --orange-light: #ff7a45;
-      --ink: #172033;
-      --muted: #667085;
-      --surface: rgba(255,255,255,.94);
-      --line: rgba(238,77,45,.16);
-      --shadow: 0 24px 70px rgba(117,42,17,.14);
-    }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 8% 0%, rgba(255,122,69,.26), transparent 28rem),
-        radial-gradient(circle at 95% 35%, rgba(238,77,45,.12), transparent 24rem),
-        #fffaf7;
-    }
-    a { color: inherit; }
-    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
-    nav { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 24px 0; }
-    .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; text-decoration: none; }
-    .brand-photo { width: 46px; height: 46px; border: 3px solid white; border-radius: 15px; object-fit: cover; box-shadow: 0 10px 22px rgba(238,77,45,.25); }
-    .nav-link { color: var(--muted); font-weight: 700; text-decoration: none; }
-    .hero { position: relative; overflow: hidden; display: grid; grid-template-columns: 1.25fr .75fr; gap: 44px; align-items: center; min-height: 570px; padding: 64px; border: 1px solid var(--line); border-radius: 36px; background: var(--surface); box-shadow: var(--shadow); }
-    .hero::after { content: ""; position: absolute; width: 390px; height: 390px; right: -170px; top: -170px; border-radius: 50%; background: linear-gradient(135deg,var(--orange),var(--orange-light)); opacity: .12; }
-    .eyebrow { display: inline-flex; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--orange); background: #fff7f2; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
-    h1 { max-width: 720px; margin: 22px 0 18px; font-size: clamp(44px,7vw,76px); line-height: .98; letter-spacing: -.055em; }
-    .lead { max-width: 680px; margin: 0; color: var(--muted); font-size: 19px; line-height: 1.7; }
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
-    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 20px; border-radius: 15px; font-weight: 900; text-decoration: none; }
-    .button.primary { color: white; background: linear-gradient(135deg,var(--orange),var(--orange-light)); box-shadow: 0 14px 28px rgba(238,77,45,.24); }
-    .button.secondary { border: 1px solid #e8d9d3; background: white; }
-    .bot { position: relative; z-index: 1; display: grid; place-items: center; aspect-ratio: 1; border-radius: 34px; color: white; background: linear-gradient(145deg,var(--orange),#ff955f); box-shadow: 0 28px 55px rgba(238,77,45,.28); }
-    .bot-face { width: 62%; padding: 22% 10%; border: 5px solid rgba(255,255,255,.8); border-radius: 30%; background: rgba(255,255,255,.17); text-align: center; font-size: clamp(38px,6vw,70px); line-height: 1; }
-    .portrait { position: relative; z-index: 1; overflow: hidden; aspect-ratio: 1; border: 10px solid white; border-radius: 34px; background: #f4e5de; box-shadow: 0 28px 55px rgba(238,77,45,.24); }
-    .portrait img { width: 100%; height: 100%; display: block; object-fit: cover; }
-    section.block { padding: 84px 0 0; }
-    .section-head { max-width: 720px; margin-bottom: 30px; }
-    .section-head h2 { margin: 0 0 12px; font-size: clamp(30px,4vw,46px); letter-spacing: -.035em; }
-    .section-head p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
-    .grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
-    .card { padding: 28px; border: 1px solid var(--line); border-radius: 24px; background: white; box-shadow: 0 12px 34px rgba(23,32,51,.06); }
-    .card span { color: var(--orange); font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
-    .card h3 { margin: 12px 0 8px; font-size: 21px; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.65; }
-    .flow { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
-    .step { position: relative; padding: 24px; border-radius: 22px; color: white; background: #202b40; }
-    .step strong { display: block; margin-bottom: 8px; color: #ffb08c; }
-    .step p { margin: 0; color: #d6dbe5; line-height: 1.6; }
-    .project-intro { padding: 38px; border-radius: 28px; color: white; background: linear-gradient(135deg,#202b40,#111827); box-shadow: 0 20px 50px rgba(23,32,51,.16); }
-    .project-intro h2 { margin: 0 0 14px; font-size: clamp(30px,4vw,44px); }
-    .project-intro p { max-width: 900px; margin: 0; color: #d9dee8; font-size: 17px; line-height: 1.75; }
-    .project-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
-    .project-tags span { padding: 9px 13px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; color: #fff; background: rgba(255,255,255,.08); font-size: 13px; font-weight: 800; }
-    .stats { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
-    .stat { padding: 24px 18px; border: 1px solid var(--line); border-radius: 22px; background: white; box-shadow: 0 12px 34px rgba(23,32,51,.06); }
-    .stat strong { display: block; margin-bottom: 8px; color: var(--orange); font-size: clamp(28px,4vw,42px); letter-spacing: -.04em; }
-    .stat span { color: var(--muted); font-weight: 750; line-height: 1.4; }
-    .about { display: grid; grid-template-columns: .65fr 1.35fr; gap: 30px; align-items: start; padding: 38px; border: 1px solid var(--line); border-radius: 28px; background: white; box-shadow: 0 14px 38px rgba(23,32,51,.06); }
-    .about-label { color: var(--orange); font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
-    .about h2 { margin: 12px 0 0; font-size: clamp(30px,4vw,45px); letter-spacing: -.035em; }
-    .about-copy p { margin: 0 0 16px; color: var(--muted); font-size: 17px; line-height: 1.75; }
-    footer { display: flex; justify-content: space-between; gap: 20px; padding: 42px 0; margin-top: 72px; color: var(--muted); border-top: 1px solid var(--line); }
-    @media (max-width: 980px) { .stats { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width: 820px) { .hero { grid-template-columns: 1fr; padding: 42px 28px; } .portrait { max-width: 340px; } .grid,.flow,.about { grid-template-columns: 1fr; } }
-    @media (max-width: 520px) { .wrap { width: min(100% - 20px,1120px); } nav { padding: 16px 4px; } .hero { min-height: auto; border-radius: 26px; } .nav-link { display: none; } section.block { padding-top: 62px; } footer { flex-direction: column; } }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portfólio de Lucas Echer — automação, produtos operacionais, dados e melhoria de processos.">
+  <meta name="theme-color" content="#f3f4ed">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Lucas Echer — Automação que resolve problemas reais">
+  <meta property="og:description" content="Projetos, trajetória e impacto em automação, dados e operações.">
+  <meta property="og:url" content="https://lucasecher-ops.github.io/portfolio/">
+  <meta property="og:image" content="https://lucasecher-ops.github.io/portfolio/og-card.png">
+  <meta property="og:image:alt" content="Composição abstrata em verde, marfim e laranja representando dados, automação e processos conectados">
+  <title>Lucas Echer | Automação, dados e operações</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-  <div class="wrap">
-    <nav>
-      <a class="brand" href="#inicio"><img class="brand-photo" src="./lucas-echer.jpg" alt="Foto de Lucas Echer">Lucas Echer</a>
-      <a class="nav-link" href="#case">Projeto em destaque ↓</a>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header" aria-label="Cabeçalho principal">
+    <a class="brand" href="#inicio" aria-label="Voltar ao início">
+      <img src="./lucas-echer.jpg" alt="" width="44" height="44">
+      <span>Lucas Echer</span>
+    </a>
+
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="#sobre">Quem sou</a>
+      <a href="#experiencia">Experiência</a>
+      <a href="#projetos">Projetos</a>
     </nav>
 
-    <main id="inicio">
-      <header class="hero">
-        <div>
-          <span class="eyebrow">Portfólio · Automação e melhoria de processos</span>
-          <h1>Transformo rotinas complexas em soluções simples.</h1>
-          <p class="lead">Sou Lucas Echer. Crio ferramentas que reduzem trabalho repetitivo, organizam processos e ajudam pessoas a resolver problemas com mais clareza, velocidade e segurança.</p>
-          <div class="actions">
-            <a class="button primary" href="#case">Ver projeto em destaque</a>
-            <a class="button secondary" href="https://github.com/LucasEcher-ops" target="_blank" rel="noopener noreferrer">Perfil no GitHub</a>
+    <a class="header-link" href="https://github.com/LucasEcher-ops" target="_blank" rel="noopener noreferrer">
+      GitHub <span aria-hidden="true">↗</span>
+    </a>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="hero-copy reveal">
+        <p class="kicker">AUTOMAÇÃO, DADOS E MELHORIA CONTÍNUA</p>
+        <h1 id="hero-title">
+          Eu transformo problemas operacionais em
+          <em>sistemas que as pessoas usam.</em>
+        </h1>
+        <p class="hero-intro">
+          Sou Lucas Echer. Uno visão de processo, experiência de campo e tecnologia para reduzir tarefas repetitivas, organizar decisões e criar ferramentas que crescem junto com a operação.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="#projeto-destaque">Conhecer o Problem Solver Bot <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="#experiencia">Ver minha trajetória <span aria-hidden="true">→</span></a>
+        </div>
+
+        <p class="hero-proof">
+          <span aria-hidden="true">◇</span>
+          Da operação à solução: pesquisa, construção, teste e evolução contínua.
+        </p>
+      </div>
+
+      <div class="hero-stage reveal" aria-label="Resumo visual da atuação de Lucas">
+        <div class="orbit orbit-one" aria-hidden="true"></div>
+        <div class="orbit orbit-two" aria-hidden="true"></div>
+        <div class="portrait-card" data-depth="0.6">
+          <img src="./lucas-echer.jpg" alt="Lucas Echer durante uma atividade voluntária" width="520" height="620">
+          <div class="portrait-caption">
+            <span>Lucas Echer</span>
+            <small>Processo × Produto × Pessoas</small>
           </div>
         </div>
-        <figure class="portrait"><img src="./lucas-echer.jpg" alt="Lucas Echer durante uma atividade voluntária"></figure>
-      </header>
 
-      <section class="block" aria-labelledby="impacto">
-        <div class="section-head"><h2 id="impacto">Impacto em números</h2><p>Indicadores acumulados pelo Problem Solver Bot em seis meses de atuação e evolução contínua.</p></div>
-        <div class="stats">
-          <article class="stat"><strong>150+</strong><span>usuários ativos</span></article>
-          <article class="stat"><strong>10 mil+</strong><span>tratativas realizadas</span></article>
-          <article class="stat"><strong>7</strong><span>fluxos automatizados</span></article>
-          <article class="stat"><strong>8</strong><span>setores impactados</span></article>
-          <article class="stat"><strong>3</strong><span>galpões atendidos</span></article>
-        </div>
-      </section>
-
-      <section class="block" id="case">
-        <div class="project-intro">
+        <article class="float-card float-card-product" data-depth="1.15">
+          <p class="card-label">PRODUTO OPERACIONAL</p>
           <h2>Problem Solver Bot</h2>
-          <p>Um assistente operacional que funciona dentro do WMS e acompanha o usuário no ponto exato em que o trabalho acontece. Em vez de obrigar a equipe a alternar entre páginas, planilhas e consultas separadas, o Bot reconhece o contexto da tela, reúne informações, orienta decisões e executa fluxos controlados em uma única interface. O projeto cresceu para mais de 18 mil linhas de código, atendendo diferentes perfis e processos em três galpões.</p>
-          <div class="project-tags"><span>18 mil+ linhas de código</span><span>Assistente integrado ao WMS</span><span>7 fluxos automatizados</span><span>Interface + Loader + Backend</span></div>
-        </div>
-      </section>
+          <div class="mini-metrics">
+            <span><strong>150+</strong> usuários</span>
+            <span><strong>7</strong> fluxos</span>
+          </div>
+          <p class="status"><span></span> em evolução contínua</p>
+        </article>
 
-      <section class="block">
-        <div class="section-head"><h2>Do problema à ferramenta</h2><p>O projeto nasceu da observação direta da operação e evoluiu continuamente a partir do uso real, dos feedbacks das equipes e das necessidades de diferentes setores.</p></div>
-        <div class="grid">
-          <article class="card"><span>Desafio</span><h3>Informação fragmentada</h3><p>Investigações exigiam alternar entre telas, conferir dados manualmente e repetir etapas sujeitas a erro.</p></article>
-          <article class="card"><span>Solução</span><h3>Assistência dentro do WMS</h3><p>O Bot transforma o contexto da própria operação em análises, atalhos e ações guiadas para cada perfil.</p></article>
-          <article class="card"><span>Resultado</span><h3>Escala com consistência</h3><p>Mais de 150 usuários passaram a executar rotinas com uma experiência padronizada, rápida e rastreável.</p></article>
-        </div>
-      </section>
+        <article class="float-card float-card-scale" data-depth="0.9">
+          <p class="card-label">ESCALA E GOVERNANÇA</p>
+          <h2>100+ sistemas</h2>
+          <p>120+ logins pessoais<br>57 logins sistêmicos</p>
+        </article>
 
-      <section class="block">
-        <div class="section-head"><h2>Como ele funciona</h2><p>A solução conecta quatro camadas para transformar a sessão do WMS em uma experiência assistida, atualizável e governada.</p></div>
-        <div class="flow">
-          <article class="step"><strong>01 · Loader</strong><p>Inicializa o assistente, consulta a versão disponível e carrega o código central sem exigir reinstalação manual a cada evolução.</p></article>
-          <article class="step"><strong>02 · Interface no WMS</strong><p>Lê o contexto da página, aceita leitura por scanner e apresenta somente os recursos relevantes para a tarefa e o perfil do usuário.</p></article>
-          <article class="step"><strong>03 · Motor operacional</strong><p>Organiza consultas, validações e automações, reutilizando a sessão autorizada do WMS para executar ações controladas.</p></article>
-          <article class="step"><strong>04 · Backend</strong><p>Centraliza usuários, perfis, versões, regras, registros, auditorias e integrações que dão suporte à operação.</p></article>
-        </div>
-      </section>
+        <article class="float-card float-card-data" data-depth="1.35">
+          <p class="card-label">INTELIGÊNCIA OPERACIONAL</p>
+          <h2>Dados que viram ação</h2>
+          <p>Dashboards, bases, métricas e automações.</p>
+        </article>
+      </div>
 
-      <section class="block">
-        <div class="section-head"><h2>O que o assistente faz</h2><p>O Problem Solver Bot reúne diferentes jornadas operacionais em uma experiência única, reduzindo a distância entre identificar um problema, entender sua causa e tomar uma ação.</p></div>
-        <div class="grid">
-          <article class="card"><span>Análise</span><h3>SKU, EAN e localizações</h3><p>Consulta itens, cruza quantidade física e condições operacionais e auxilia a análise de localizações, AV e RT/Rack Transfer.</p></article>
-          <article class="card"><span>Boxing e Tratativa</span><h3>Fluxo conectado por Device</h3><p>Estrutura o envio da ocorrência pelo Boxing e permite que a Tratativa recupere, analise e audite o registro como válido ou não válido.</p></article>
-          <article class="card"><span>Apoio operacional</span><h3>IBT e Devices</h3><p>Concentra consultas e ações relacionadas a IBT e Devices sem retirar o usuário do contexto em que está trabalhando.</p></article>
-          <article class="card"><span>Gestão</span><h3>Produtividade por turno</h3><p>Apresenta resultados de T1, T2 e T3, vincula colaboradores, líderes e galpões, oferece filtros, ranking e exportação em CSV.</p></article>
-          <article class="card"><span>Automação</span><h3>Alocação e Scan Out</h3><p>Permite preparar e executar ações em massa, inclusive com agendamento por turno, acompanhamento de progresso e tratamento individual de falhas.</p></article>
-          <article class="card"><span>Governança</span><h3>Usuários, versões e auditoria</h3><p>Controla acesso por perfil, distribui atualizações, registra atividades e mantém rastreabilidade para apoiar a evolução do produto.</p></article>
-        </div>
-      </section>
+      <a class="scroll-cue" href="#sobre">continue explorando <span aria-hidden="true">↓</span></a>
+    </section>
 
-      <section class="block">
-        <div class="section-head"><h2>Competências demonstradas</h2><p>Um projeto que combina visão de processo, experiência do usuário e engenharia aplicada a um problema real.</p></div>
-        <div class="grid">
-          <article class="card"><span>Produto</span><h3>Descoberta e priorização</h3><p>Mapeamento de dores reais e evolução incremental baseada no uso.</p></article>
-          <article class="card"><span>Engenharia</span><h3>Automação e integrações</h3><p>Orquestração de interface, regras de negócio e serviços com limites bem definidos.</p></article>
-          <article class="card"><span>Qualidade</span><h3>Segurança por arquitetura</h3><p>Validação no lado confiável, controle de acesso e atenção à auditabilidade.</p></article>
-        </div>
-      </section>
+    <section class="section about-section" id="sobre" aria-labelledby="about-title">
+      <div class="section-index reveal" aria-hidden="true">01</div>
+      <div class="about-heading reveal">
+        <p class="kicker">QUEM EU SOU</p>
+        <h2 id="about-title">Curiosidade técnica com os pés <em>na operação.</em></h2>
+      </div>
 
-      <section class="block" id="sobre">
-        <div class="about">
-          <div><span class="about-label">Sobre mim</span><h2>Curiosidade que vira solução.</h2></div>
-          <div class="about-copy">
-            <p>Sou Lucas Echer, tenho 21 anos e atuo como Representante de Envio I há seis meses. Minha trajetória em tecnologia é autodidata: aprendo investigando problemas reais, testando ideias e transformando necessidades do dia a dia em ferramentas úteis.</p>
-            <p>Também sou apaixonado por trabalho voluntário. Já fiz parte da coordenação de GAP (Gestão de Atividade Pontual), cuidando de dados, feedbacks e da experiência geral dos voluntários. Essa vivência fortaleceu minha atenção às pessoas, à organização e à melhoria contínua.</p>
-            <p>Não tenho formação acadêmica ou cursos formais na área até o momento. O que apresento aqui é resultado de iniciativa, curiosidade, prática e vontade constante de aprender.</p>
+      <div class="about-copy reveal">
+        <p class="large-copy">
+          Tenho 21 anos e construí minha trajetória aprendendo a investigar problemas reais, conversar com quem vive o processo e transformar esse conhecimento em soluções simples de usar.
+        </p>
+        <div class="copy-columns">
+          <p>
+            Minha formação técnica é principalmente autodidata. Aprendo pesquisando, criando protótipos, testando no contexto real e refinando cada decisão com base no retorno das pessoas.
+          </p>
+          <p>
+            Também atuei na coordenação voluntária de GAP, acompanhando dados, feedbacks e a experiência dos voluntários — uma vivência que reforçou meu olhar para organização, comunicação e cuidado com as pessoas.
+          </p>
+        </div>
+      </div>
+
+      <aside class="principles reveal" aria-label="Princípios de trabalho">
+        <span>Entender antes de automatizar</span>
+        <span>Construir com quem usa</span>
+        <span>Medir para melhorar</span>
+      </aside>
+    </section>
+
+    <section class="section experience-section" id="experiencia" aria-labelledby="experience-title">
+      <div class="section-heading reveal">
+        <div>
+          <p class="kicker">EXPERIÊNCIA</p>
+          <h2 id="experience-title">Uma trajetória entre direito, qualidade, TI e <em>produto.</em></h2>
+        </div>
+        <p>
+          Cada etapa adicionou uma camada diferente: leitura de contexto, relacionamento com clientes, governança, análise de dados e construção de ferramentas.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <article class="timeline-item reveal">
+          <div class="timeline-meta">
+            <span class="timeline-number">01</span>
+            <span class="duration">ATUAL</span>
+          </div>
+          <div class="timeline-role">
+            <p>Shopee</p>
+            <h3>Representante de Envio I</h3>
+          </div>
+          <div class="timeline-description">
+            <p>
+              Criação do Problem Solver Bot, um sistema único integrado ao fluxo operacional para reunir análises, tratativas, auditorias, gestão e automações em uma experiência centralizada.
+            </p>
+            <ul class="tag-list" aria-label="Competências desta experiência">
+              <li>Produto operacional</li>
+              <li>WMS</li>
+              <li>Automação</li>
+              <li>Experiência do usuário</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="timeline-item reveal">
+          <div class="timeline-meta">
+            <span class="timeline-number">02</span>
+            <span class="duration">1 ANO</span>
+          </div>
+          <div class="timeline-role">
+            <p>Process &amp; Quality</p>
+            <h3>Process and Quality Auditor</h3>
+          </div>
+          <div class="timeline-description">
+            <p>
+              Automatização de relatórios, criação de dashboards, bases de dados e métricas. Gestão de mais de 120 logins pessoais e 57 sistêmicos em mais de 100 sistemas, além de suporte à rotina de TI, VPNs, notebooks e estabilização de sistemas com clientes.
+            </p>
+            <ul class="tag-list" aria-label="Competências desta experiência">
+              <li>Dashboards</li>
+              <li>Governança de acessos</li>
+              <li>Qualidade</li>
+              <li>Suporte a incidentes</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="timeline-item reveal">
+          <div class="timeline-meta">
+            <span class="timeline-number">03</span>
+            <span class="duration">1 ANO</span>
+          </div>
+          <div class="timeline-role">
+            <p>Consultoria jurídica</p>
+            <h3>Consultor jurídico</h3>
+          </div>
+          <div class="timeline-description">
+            <p>
+              Experiência com rotinas jurídicas, análise de contexto e comunicação clara — repertório que hoje aplico ao traduzir regras complexas em fluxos compreensíveis e seguros.
+            </p>
+            <ul class="tag-list" aria-label="Competências desta experiência">
+              <li>Análise</li>
+              <li>Comunicação</li>
+              <li>Processos</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="timeline-item reveal">
+          <div class="timeline-meta">
+            <span class="timeline-number">04</span>
+            <span class="duration">2 ANOS</span>
+          </div>
+          <div class="timeline-role">
+            <p>JusBrasil</p>
+            <h3>Experiência jurídica digital</h3>
+          </div>
+          <div class="timeline-description">
+            <p>
+              Dois anos de experiência em um ambiente que conecta tecnologia e informação jurídica, fortalecendo meu interesse por sistemas, organização de conhecimento e soluções digitais.
+            </p>
+            <ul class="tag-list" aria-label="Competências desta experiência">
+              <li>Ambiente digital</li>
+              <li>Informação jurídica</li>
+              <li>Organização</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="systems-strip reveal" aria-label="Empresas e sistemas com os quais Lucas trabalhou">
+        <p>AMBIENTES E OPERAÇÕES</p>
+        <div class="systems-marquee">
+          <span>Telefônica</span><span>Banco PAN</span><span>Rumo</span><span>Comgás</span><span>Raízen</span><span>Cosan</span><span>Movee</span><span>MRV</span>
+        </div>
+        <p class="systems-note">De PW e outros sistemas legados em ASCII a WMS, Oracle, Atlas, Zeus, WFM e plataformas jurídicas.</p>
+      </div>
+    </section>
+
+    <section class="section projects-section" id="projetos" aria-labelledby="projects-title">
+      <div class="section-heading reveal">
+        <div>
+          <p class="kicker">PROJETOS</p>
+          <h2 id="projects-title">Soluções construídas para sair do papel e <em>ganhar escala.</em></h2>
+        </div>
+        <p>
+          Projetos que combinam investigação do problema, desenho de fluxo, construção técnica, governança e melhoria contínua.
+        </p>
+      </div>
+
+      <article class="featured-project reveal" id="projeto-destaque">
+        <div class="featured-copy">
+          <div class="project-topline">
+            <span>PROJETO 01</span>
+            <span>PRODUTO EM EVOLUÇÃO</span>
+          </div>
+          <p class="project-category">WMS · AUTOMAÇÃO · PRODUTO OPERACIONAL</p>
+          <h3>Problem<br>Solver <em>Bot.</em></h3>
+          <p class="project-lead">
+            Um assistente integrado ao WMS que reduz a distância entre identificar um problema, entender sua causa e tomar uma ação segura.
+          </p>
+          <p>
+            O produto reúne jornadas de análise, Boxing, Tratativa, IBT, Devices, gestão, alocação e auditoria em uma interface única. Sua arquitetura separa carregamento, experiência no WMS, motor operacional e backend para permitir atualização e controle em escala.
+          </p>
+
+          <div class="project-actions">
+            <a class="button button-light" href="#impacto-bot">Ver impacto <span aria-hidden="true">↓</span></a>
+            <span>18 mil+ linhas de código</span>
           </div>
         </div>
-      </section>
-    </main>
 
-    <footer><strong>Lucas Echer · Portfólio</strong><span>Automação e soluções operacionais · 2026</span></footer>
-  </div>
+        <div class="project-visual" aria-label="Representação do ecossistema do Problem Solver Bot">
+          <div class="bot-window">
+            <div class="bot-window-bar">
+              <div class="bot-brand"><span>PS</span> Problem Solver</div>
+              <div class="window-status"><span></span> online</div>
+            </div>
+            <div class="bot-window-body">
+              <div class="bot-sidebar" aria-hidden="true">
+                <span class="active"></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="bot-dashboard">
+                <p>ANÁLISE OPERACIONAL</p>
+                <div class="search-mock"><span>SKU, EAN ou ASN</span><strong>ANALISAR</strong></div>
+                <div class="dashboard-grid">
+                  <div><span>ANÁLISES</span><strong>Fluxo guiado</strong><i></i></div>
+                  <div><span>DEVICES</span><strong>Rastreabilidade</strong><i></i></div>
+                  <div><span>TRATATIVAS</span><strong>Histórico central</strong><i></i></div>
+                  <div><span>GESTÃO</span><strong>Dados por turno</strong><i></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="visual-note note-users">
+            <span>USUÁRIOS</span>
+            <strong>150+</strong>
+            <small>adoção orgânica</small>
+          </div>
+          <div class="visual-note note-sites">
+            <span>ALCANCE</span>
+            <strong>3 galpões</strong>
+            <small>8 setores impactados</small>
+          </div>
+        </div>
+      </article>
+
+      <section class="impact-panel reveal" id="impacto-bot" aria-labelledby="impact-title">
+        <div class="impact-intro">
+          <p class="kicker">IMPACTO PÚBLICO</p>
+          <h3 id="impact-title">Números que mostram adoção — não apenas código.</h3>
+          <p>Indicadores acumulados informados para a apresentação pública do projeto.</p>
+        </div>
+        <div class="impact-grid">
+          <article><strong>150+</strong><span>usuários ativos</span></article>
+          <article><strong>10 mil+</strong><span>tratativas realizadas</span></article>
+          <article><strong>7</strong><span>fluxos automatizados</span></article>
+          <article><strong>8</strong><span>setores impactados</span></article>
+          <article><strong>3</strong><span>galpões atendidos</span></article>
+        </div>
+      </section>
+
+      <div class="project-grid">
+        <article class="project-card project-card-analytics reveal">
+          <div class="project-card-number">02</div>
+          <p class="project-category">DADOS · DASHBOARD</p>
+          <h3>Problem Solver Analytics</h3>
+          <p>
+            Uma demonstração pública de como transformar registros operacionais em leitura de volume, turno, processo e tendência sem expor dados reais da operação.
+          </p>
+          <a href="https://lucasecher-ops.github.io/problem-solver-analytics/" target="_blank" rel="noopener noreferrer">Abrir demonstração <span aria-hidden="true">↗</span></a>
+          <div class="chart-mock" aria-hidden="true">
+            <span style="--height: 36%"></span><span style="--height: 58%"></span><span style="--height: 44%"></span><span style="--height: 76%"></span><span style="--height: 92%"></span><span style="--height: 68%"></span><span style="--height: 84%"></span>
+          </div>
+        </article>
+
+        <article class="project-card project-card-automation reveal">
+          <div class="project-card-number">03</div>
+          <p class="project-category">PROCESSOS · QUALIDADE</p>
+          <h3>Automações, bases e métricas</h3>
+          <p>
+            Scripts para relatórios, dashboards e estruturas de dados que diminuem etapas manuais e tornam o acompanhamento da operação mais confiável.
+          </p>
+          <div class="automation-flow" aria-label="Fluxo de automação">
+            <span>Dados</span><i>→</i><span>Regra</span><i>→</i><span>Decisão</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section approach-section" aria-labelledby="approach-title">
+      <div class="approach-heading reveal">
+        <p class="kicker">COMO EU TRABALHO</p>
+        <h2 id="approach-title">Tecnologia começa com uma boa <em>pergunta.</em></h2>
+      </div>
+      <ol class="approach-list">
+        <li class="reveal"><span>01</span><strong>Observar</strong><p>Entendo o fluxo real, suas exceções e quem sente o problema.</p></li>
+        <li class="reveal"><span>02</span><strong>Organizar</strong><p>Transformo sinais dispersos em regra, prioridade e caminho de decisão.</p></li>
+        <li class="reveal"><span>03</span><strong>Construir</strong><p>Crio a menor solução útil, com cuidado para adoção, segurança e manutenção.</p></li>
+        <li class="reveal"><span>04</span><strong>Evoluir</strong><p>Uso dados e feedbacks para corrigir, simplificar e ampliar o impacto.</p></li>
+      </ol>
+    </section>
+
+    <section class="contact-section reveal" aria-labelledby="contact-title">
+      <p class="kicker">VAMOS CONVERSAR</p>
+      <h2 id="contact-title">Problemas complexos também podem ter uma interface <em>simples.</em></h2>
+      <p>Conheça meus projetos e acompanhe as próximas evoluções.</p>
+      <a class="button button-primary" href="https://github.com/LucasEcher-ops" target="_blank" rel="noopener noreferrer">Visitar meu GitHub <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="#inicio">
+      <img src="./lucas-echer.jpg" alt="" width="42" height="42">
+      <span>Lucas Echer</span>
+    </a>
+    <p>Automação · Dados · Operações</p>
+    <p>© <span id="current-year">2026</span></p>
+  </footer>
+
+  <script src="./script.js" defer></script>
 </body>
 </html>
