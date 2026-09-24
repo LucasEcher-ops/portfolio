@@ -21,7 +21,7 @@
   <meta name="twitter:image" content="https://lucasecher-ops.github.io/portfolio/og-card.png">
   <title>Lucas Echer | Automação, dados e operações</title>
   <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./demo.css?v=20260924d">
+  <link rel="stylesheet" href="./demo.css?v=20260924e">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -94,16 +94,16 @@
           <p class="card-label">PRODUTO OPERACIONAL</p>
           <h2>Problem Solver Bot</h2>
           <div class="mini-metrics">
-            <span><strong>250+</strong> usuários</span>
-            <span><strong>13</strong> fluxos</span>
+            <span><strong data-public-stat="users">250+</strong> usuários</span>
+            <span><strong data-public-stat="flows">13</strong> fluxos</span>
           </div>
           <p class="status"><span></span> em evolução contínua</p>
         </article>
 
         <article class="float-card float-card-scale" data-depth="0.9">
           <p class="card-label">ESCALA E GOVERNANÇA</p>
-          <h2>100+ sistemas</h2>
-          <p>120+ logins pessoais<br>57 logins sistêmicos</p>
+          <h2><span data-public-stat="systems">100+</span> sistemas</h2>
+          <p><span data-public-stat="personalLogins">120+</span> logins pessoais<br><span data-public-stat="systemLogins">57</span> logins sistêmicos</p>
         </article>
 
         <article class="float-card float-card-data" data-depth="1.35">
@@ -189,7 +189,7 @@
           </div>
           <div class="timeline-description">
             <p>
-              Automatização de relatórios, criação de dashboards, bases de dados e métricas. Gestão de mais de 120 logins pessoais e 57 sistêmicos em mais de 100 sistemas, além de suporte à rotina de TI, VPNs, notebooks e estabilização de sistemas com clientes.
+              Automatização de relatórios, criação de dashboards, bases de dados e métricas. Gestão de <span data-public-stat="personalLogins">120+</span> logins pessoais e <span data-public-stat="systemLogins">57</span> sistêmicos em <span data-public-stat="systems">100+</span> sistemas, além de suporte à rotina de TI, VPNs, notebooks e estabilização de sistemas com clientes.
             </p>
             <ul class="tag-list" aria-label="Competências desta experiência">
               <li>Dashboards</li>
@@ -280,7 +280,7 @@
 
           <div class="project-actions">
             <a class="button button-light" href="#demo-operacional">Explorar demonstração <span aria-hidden="true">↓</span></a>
-            <span>18 mil+ linhas de código</span>
+            <span><b data-public-stat="code">18 mil+</b> linhas de código</span>
           </div>
         </div>
 
@@ -338,6 +338,19 @@
                     </div>
                   </div>
 
+                  <section class="demo-ibt-summary" aria-labelledby="ps-ibt-title">
+                    <div class="demo-ibt-heading">
+                      <span>IBT · TRATATIVA</span>
+                      <strong id="ps-ibt-title">Conferência da diferença</strong>
+                    </div>
+                    <div class="demo-ibt-metrics" aria-label="Resumo IBT do caso demonstrativo">
+                      <article data-type="sobra"><span>SOBRA</span><strong id="ps-ibt-sobra">0</strong><small>un.</small></article>
+                      <article data-type="avaria"><span>AVARIA</span><strong id="ps-ibt-avaria">0</strong><small>un.</small></article>
+                      <article data-type="falta"><span>FALTA</span><strong id="ps-ibt-falta">0</strong><small>un.</small></article>
+                    </div>
+                    <p id="ps-ibt-note">Comparando o físico encontrado com o saldo esperado.</p>
+                  </section>
+
                   <div class="demo-decision" id="ps-decision">
                     <span>LEITURA DO CASO</span>
                     <strong>Validar diferenças e direcionar o físico restante.</strong>
@@ -349,12 +362,12 @@
 
           <div class="visual-note note-users">
             <span>USUÁRIOS</span>
-            <strong>250+</strong>
+            <strong data-public-stat="users">250+</strong>
             <small>colaboradores</small>
           </div>
           <div class="visual-note note-sites">
             <span>ALCANCE</span>
-            <strong>3 unidades</strong>
+            <strong data-public-stat="sitesLabel">3 unidades</strong>
             <small>Franco 1 · Franco 2 · Guarulhos</small>
           </div>
         </div>
@@ -367,11 +380,11 @@
           <p>Indicadores acumulados informados para a apresentação pública do projeto.</p>
         </div>
         <div class="impact-grid">
-          <article><strong>250+</strong><span>colaboradores utilizam o Problem Solver</span></article>
-          <article><strong>21 mil+</strong><span>tratativas realizadas</span></article>
-          <article><strong>13</strong><span>fluxos automatizados</span></article>
-          <article><strong>3</strong><span>unidades: Franco 1, Franco 2 e Guarulhos</span></article>
-          <article><strong>18 mil+</strong><span>linhas no ecossistema principal</span></article>
+          <article><strong data-public-stat="users">250+</strong><span>colaboradores utilizam o Problem Solver</span></article>
+          <article><strong data-public-stat="cases">21 mil+</strong><span>tratativas realizadas</span></article>
+          <article><strong data-public-stat="flows">13</strong><span>fluxos automatizados</span></article>
+          <article><strong data-public-stat="sites">3</strong><span>unidades: Franco 1, Franco 2 e Guarulhos</span></article>
+          <article><strong data-public-stat="code">18 mil+</strong><span>linhas no ecossistema principal</span></article>
         </div>
       </section>
 
@@ -382,7 +395,7 @@
             <h3 id="ops-showcase-title">Uma operação que dá para <em>mover.</em></h3>
           </div>
           <p>
-            Uma versão pública e simplificada de um painel de alocação: escolha uma pessoa, altere sua posição ou produtividade e acompanhe indicadores de IBT.
+            Uma versão pública e simplificada de um painel de Boxing: escolha uma pessoa e acompanhe sua produtividade por hora ao redor da esteira.
           </p>
         </div>
 
@@ -432,8 +445,11 @@
               <label for="ops-person-name">Pessoa fictícia</label>
               <select id="ops-person-name"></select>
 
-              <label for="ops-person-process">Processo</label>
-              <select id="ops-person-process"></select>
+              <div class="ops-fixed-process" aria-label="Processo fixo desta demonstração">
+                <span>PROCESSO</span>
+                <strong>Boxing</strong>
+                <small>fluxo único do painel</small>
+              </div>
 
               <div class="ops-editor-numbers">
                 <label for="ops-person-value">Produção na última hora
@@ -464,20 +480,6 @@
               <span class="ops-save-status" id="ops-save-status" role="status"></span>
             </form>
           </div>
-
-          <section class="ops-ibt" aria-labelledby="ops-ibt-title">
-            <div class="ops-ibt-heading">
-              <div><span class="ops-demo-eyebrow">IBT · TRATATIVAS</span><h4 id="ops-ibt-title">Diferenças que pedem ação.</h4></div>
-              <p>Clique em um indicador para filtrar ocorrências demonstrativas.</p>
-            </div>
-            <div class="ops-ibt-stats" id="ops-ibt-filters">
-              <button type="button" class="is-active" data-filter="todos"><span>TODOS</span><strong id="ops-ibt-total">0</strong><small>unidades</small></button>
-              <button type="button" data-filter="sobra"><span>SOBRA</span><strong id="ops-ibt-sobra">0</strong><small>unidades</small></button>
-              <button type="button" data-filter="avaria"><span>AVARIA</span><strong id="ops-ibt-avaria">0</strong><small>unidades</small></button>
-              <button type="button" data-filter="falta"><span>FALTA</span><strong id="ops-ibt-falta">0</strong><small>unidades</small></button>
-            </div>
-            <div class="ops-ibt-list" id="ops-ibt-list" aria-live="polite"></div>
-          </section>
 
           <p class="ops-demo-hint">Simulação local, sem marcas, dados reais ou conexão com sistemas corporativos. Recarregue a página para restaurar os valores iniciais.</p>
         </div>
@@ -541,7 +543,7 @@
     <p>© <span id="current-year">2026</span></p>
   </footer>
 
-  <script src="./analytics.js?v=20260924d" defer></script>
-  <script src="./script.js?v=20260924d" defer></script>
+  <script src="./analytics.js?v=20260924e" defer></script>
+  <script src="./script.js?v=20260924e" defer></script>
 </body>
 </html>

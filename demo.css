@@ -1412,3 +1412,188 @@
   .ops-demo-cell { grid-template-columns: 28px minmax(0, 1fr); }
   .ops-person-prod { grid-column: 1 / -1; display: flex !important; align-items: center; justify-content: end; gap: 5px; }
 }
+
+/* IBT pertence à análise do Problem Solver, não ao painel de produtividade. */
+.demo-ibt-summary {
+  margin-top: 10px;
+  padding: 11px 12px;
+  border: 1px solid rgba(21, 56, 47, .12);
+  border-left: 3px solid var(--orange);
+  border-radius: 10px;
+  background: rgba(232, 238, 230, .72);
+}
+.demo-ibt-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.demo-ibt-heading span {
+  color: var(--orange);
+  font: 800 .48rem var(--mono);
+  letter-spacing: .08em;
+}
+.demo-ibt-heading strong { color: var(--forest-dark); font-size: .66rem; }
+.demo-ibt-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 8px;
+}
+.demo-ibt-metrics article {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: baseline;
+  gap: 3px;
+  padding: 7px 8px;
+  border: 1px solid rgba(21, 56, 47, .08);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, .76);
+}
+.demo-ibt-metrics span { color: var(--muted); font: 800 .42rem var(--mono); }
+.demo-ibt-metrics strong { color: var(--forest-dark); font-size: .76rem; }
+.demo-ibt-metrics small { color: var(--muted); font-size: .44rem; }
+.demo-ibt-metrics article[data-type="avaria"] strong { color: #c7553e; }
+.demo-ibt-summary > p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: .5rem;
+  line-height: 1.35;
+}
+.bot-window-live .bot-window-body { min-height: 590px; }
+
+.ops-fixed-process {
+  margin-top: 12px;
+  padding: 10px 11px;
+  border: 1px solid rgba(21, 56, 47, .12);
+  border-radius: 9px;
+  background: #f5f7f1;
+}
+.ops-fixed-process span,
+.ops-fixed-process strong,
+.ops-fixed-process small { display: block; }
+.ops-fixed-process span { color: var(--muted); font: 800 .48rem var(--mono); letter-spacing: .06em; }
+.ops-fixed-process strong { margin: 2px 0; color: var(--forest-dark); font-size: .78rem; }
+.ops-fixed-process small { color: var(--muted); font-size: .52rem; }
+
+/* Esteiras compactas com a correia entre as duas fileiras de colaboradores. */
+.ops-demo-board {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.ops-lane { padding: 10px; }
+.ops-lane > header span {
+  flex: 1;
+  color: rgba(21, 56, 47, .48);
+  font: 700 .46rem var(--mono);
+  text-align: center;
+}
+.ops-conveyor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr);
+  align-items: stretch;
+  gap: 6px;
+  overflow: hidden;
+  padding: 7px;
+  border: 1px solid rgba(21,56,47,.08);
+  border-radius: 12px;
+  background: rgba(255,255,255,.52);
+}
+.ops-lane-side {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+}
+.ops-lane-side .ops-demo-cell {
+  grid-template-columns: 26px minmax(0, 1fr) auto;
+  gap: 5px;
+  min-height: 51px;
+  padding: 6px;
+  border-radius: 8px;
+}
+.ops-lane-side .ops-demo-cell::after {
+  top: 7px;
+  right: auto;
+  bottom: 7px;
+  left: -3px;
+  width: 3px;
+  height: auto;
+}
+.ops-lane-side[data-side="right"] .ops-demo-cell::after {
+  right: -3px;
+  left: auto;
+}
+.ops-lane-side .ops-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  font-size: .48rem;
+}
+.ops-lane-side .ops-person-copy strong { font-size: .5rem; }
+.ops-lane-side .ops-person-copy small,
+.ops-lane-side .ops-person-prod small { font-size: .38rem; }
+.ops-lane-side .ops-person-prod b { font-size: .58rem; }
+.ops-conveyor-center {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  justify-items: center;
+  gap: 4px;
+  min-height: 165px;
+}
+.ops-conveyor-center > span {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 20px;
+  border-radius: 99px;
+  color: var(--forest-dark);
+  background: var(--sage);
+  font: 800 .44rem var(--mono);
+}
+.ops-conveyor-track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 24px;
+  min-height: 125px;
+  padding: 6px 0;
+  border-right: 3px solid #d95439;
+  border-left: 3px solid #d95439;
+  border-radius: 5px;
+  background: #183f35;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.ops-conveyor-track i {
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 50%;
+  background: rgba(255,255,255,.14);
+}
+.ops-conveyor-track b {
+  position: absolute;
+  right: 0;
+  bottom: 7px;
+  left: 0;
+  color: #fff;
+  font-size: .65rem;
+  text-align: center;
+}
+
+@media (max-width: 1180px) {
+  .ops-demo-board { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .demo-ibt-heading { align-items: flex-start; flex-direction: column; gap: 2px; }
+  .ops-demo-board { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 430px) {
+  .ops-conveyor { grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr); gap: 4px; padding: 5px; }
+  .ops-lane-side .ops-demo-cell { grid-template-columns: 23px minmax(0, 1fr); }
+  .ops-lane-side .ops-person-prod { grid-column: 1 / -1; }
+  .demo-ibt-metrics article { grid-template-columns: 1fr; gap: 1px; }
+}

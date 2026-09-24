@@ -133,6 +133,25 @@
     if (element) element.textContent = value;
   };
 
+  /* Fonte única para todos os indicadores públicos repetidos no site. */
+  const publicFacts = {
+    users: '250+',
+    cases: '21 mil+',
+    flows: '13',
+    systems: '100+',
+    personalLogins: '120+',
+    systemLogins: '57',
+    sites: '3',
+    sitesLabel: '3 unidades',
+    code: '18 mil+'
+  };
+
+  Object.entries(publicFacts).forEach(([key, value]) => {
+    document.querySelectorAll(`[data-public-stat="${key}"]`).forEach((element) => {
+      element.textContent = value;
+    });
+  });
+
   const renderProblemSolverCase = (rawValue) => {
     if (!physicalLocations || !virtualLocations) return;
 
@@ -189,6 +208,26 @@
       .map(([code, description]) => `<span><b>${code}</b> ${description}</span>`)
       .join('');
 
+    const hasQualityException = shuffledVirtuals.some(([code]) => code === 'QA');
+    const damaged = hasQualityException && physical > 0
+      ? randomInt(random, 1, Math.min(4, physical))
+      : 0;
+    const usablePhysical = Math.max(0, physical - damaged);
+    const expectedPhysical = storedPending;
+    const surplus = Math.max(0, usablePhysical - expectedPhysical);
+    const shortage = Math.max(0, expectedPhysical - usablePhysical);
+    const ibtTotal = surplus + damaged + shortage;
+
+    setText('#ps-ibt-sobra', surplus);
+    setText('#ps-ibt-avaria', damaged);
+    setText('#ps-ibt-falta', shortage);
+    setText('#ps-ibt-title', ibtTotal > 0 ? `${ibtTotal} un. em tratativa` : 'Fluxo sem diferença IBT');
+    setText(
+      '#ps-ibt-note',
+      `Saldo esperado: ${expectedPhysical} un. · físico utilizável: ${usablePhysical} un.` +
+      (damaged > 0 ? ` · ${damaged} un. separada(s) por avaria.` : '')
+    );
+
     let decision =
       'Fluxo equilibrado. O caso não apresenta diferença relevante para direcionamento.';
 
@@ -233,121 +272,9 @@
   const popover = document.querySelector('#ops-demo-popover');
   const popoverClose = document.querySelector('#ops-popover-close');
 
-  const demoNames = [
-    'Ana Martins',
-    'Bruno Lima',
-    'Carla Souza',
-    'Diego Alves',
-    'Evelyn Rocha',
-    'Felipe Mendes',
-    'Giovana Silva',
-    'Henrique Costa',
-    'Isabela Santos',
-    'João Ribeiro',
-    'Karen Oliveira',
-    'Mariana Castro',
-    'Nicolas Gomes',
-    'Patrícia Melo',
-    'Rafael Nunes'
-  ];
-
-  const demoProcesses = [
-    'Recebimento',
-    'Boxing',
-    'Armazenagem',
-    'Conferência',
-    'Tratativa'
-  ];
-
-  const cells = [
-    'R01', 'R02', 'R03', 'R04', 'R05',
-    'B01', 'B02', 'B03', 'B04', 'B05',
-    'A01', 'A02', 'A03', 'A04', 'A05'
-  ];
-
-  const buildBoard = () => {
-    if (!board) return;
-
-    const random = seededRandom(2300);
-
-    board.innerHTML = cells.map((cell, index) => {
-      const production = randomInt(random, 1420, 2288);
-      const percent = production / 2300;
-      const band = percent >= 0.9 ? 'good' : percent >= 0.78 ? 'alert' : 'normal';
-
-      return `
-        <button
-          class="ops-demo-cell"
-          type="button"
-          data-cell="${cell}"
-          data-value="${production}"
-          data-index="${index}"
-          data-band="${band}"
-          aria-label="${cell}, produção demonstrativa ${production}"
-        >
-          <span>${cell}</span>
-          <strong>${production.toLocaleString('pt-BR')}</strong>
-          <i aria-hidden="true"></i>
-        </button>
-      `;
-    }).join('');
-  };
-
-  const showOperator = (cellElement) => {
-    if (!popover || !cellElement) return;
-
-    board?.querySelectorAll('.ops-demo-cell').forEach((cell) => {
-      cell.classList.toggle('is-selected', cell === cellElement);
-    });
-
-    const cell = cellElement.dataset.cell || 'CÉLULA';
-    const production = Number(cellElement.dataset.value || 0);
-    const index = Number(cellElement.dataset.index || 0);
-
-    const random = seededRandom(hashSeed(`${cell}:${production}:${index}`));
-    const name = pick(random, demoNames);
-    const process = pick(random, demoProcesses);
-    const percent = Math.min(99, Math.round((production / 2300) * 100));
-
-    setText('#ops-popover-cell', cell);
-    setText('#ops-popover-name', name);
-    setText('#ops-popover-role', process);
-    setText('#ops-popover-value', production.toLocaleString('pt-BR'));
-    setText('#ops-popover-percent', `${percent}%`);
-
-    const bar = document.querySelector('#ops-popover-bar');
-    if (bar) bar.style.width = `${percent}%`;
-
-    popover.hidden = false;
-  };
-
-  buildBoard();
-
-  if (board) {
-    board.addEventListener('click', (event) => {
-      const cell = event.target.closest('.ops-demo-cell');
-      if (!cell) return;
-      showOperator(cell);
-      window.portfolioTrack?.('ops_demo_cell_view');
-    });
-
-    const initialCell = board.querySelector('.ops-demo-cell:nth-child(3)');
-    if (initialCell) showOperator(initialCell);
-  }
-
-  if (popoverClose && popover) {
-    popoverClose.addEventListener('click', () => {
-      popover.hidden = true;
-      board?.querySelectorAll('.ops-demo-cell').forEach((cell) => {
-        cell.classList.remove('is-selected');
-      });
-    });
-  }
-
   /* Painel de alocação simplificado — todos os dados abaixo são fictícios. */
   const opsEditor = popover;
   const opsNameSelect = document.querySelector('#ops-person-name');
-  const opsProcessSelect = document.querySelector('#ops-person-process');
   const opsValueInput = document.querySelector('#ops-person-value');
   const opsGoalInput = document.querySelector('#ops-person-goal');
 
@@ -361,7 +288,7 @@
     'Daniela Moraes', 'Eduardo Pires', 'Fernanda Lopes', 'Gabriel Tavares',
     'Helena Azevedo', 'Igor Cardoso', 'Juliana Rezende', 'Matheus Farias'
   ];
-  const opsDemoProcesses = ['Boxing', 'Conferência', 'Apoio', 'Tratativa IBT'];
+  const opsDemoProcesses = ['Boxing'];
   const opsDemoLanes = [
     { id: 'A', label: 'ESTEIRA A' },
     { id: 'B', label: 'ESTEIRA B' },
@@ -390,17 +317,6 @@
     })
   ));
 
-  const opsIbtCases = [
-    { id: 'IBT-2041', type: 'sobra', label: 'Sobra', units: 8, area: 'Esteira A', note: 'Validar origem antes da devolução ao fluxo.' },
-    { id: 'IBT-2048', type: 'falta', label: 'Falta', units: 5, area: 'Esteira C', note: 'Recontagem solicitada na posição de origem.' },
-    { id: 'IBT-2053', type: 'avaria', label: 'Avaria', units: 3, area: 'Volumoso', note: 'Material separado para avaliação de qualidade.' },
-    { id: 'IBT-2060', type: 'sobra', label: 'Sobra', units: 6, area: 'Esteira B', note: 'Conferência cruzada com o lote demonstrativo.' },
-    { id: 'IBT-2067', type: 'falta', label: 'Falta', units: 4, area: 'Esteira A', note: 'Diferença em análise com o fluxo anterior.' },
-    { id: 'IBT-2074', type: 'avaria', label: 'Avaria', units: 2, area: 'Esteira C', note: 'Aguardando classificação da ocorrência.' },
-    { id: 'IBT-2081', type: 'sobra', label: 'Sobra', units: 7, area: 'Volumoso', note: 'Pendência direcionada para tratativa local.' },
-    { id: 'IBT-2089', type: 'falta', label: 'Falta', units: 3, area: 'Esteira B', note: 'Busca iniciada em posições correlatas.' }
-  ];
-
   let activeOperatorIndex = 2;
 
   const getOpsAverage = (person) => (
@@ -415,6 +331,20 @@
   };
 
   const getOpsInitials = (name) => name.split(' ').slice(0, 2).map((part) => part[0]).join('');
+
+  const renderOpsPersonCard = ({ person, index }) => `
+    <button
+      class="ops-demo-cell${index === activeOperatorIndex ? ' is-selected' : ''}"
+      type="button"
+      data-index="${index}"
+      data-band="${getOpsBand(person)}"
+      aria-label="Ver ${person.name}, posição ${person.position}, média de ${getOpsAverage(person)} peças por hora"
+    >
+      <span class="ops-avatar" aria-hidden="true">${getOpsInitials(person.name)}</span>
+      <span class="ops-person-copy"><b>${person.position}</b><strong>${person.name}</strong><small>Boxing</small></span>
+      <span class="ops-person-prod"><b>${getOpsAverage(person)}</b><small>pç/h</small><i aria-hidden="true"></i></span>
+    </button>
+  `;
 
   const updateOpsKpis = () => {
     const pieces = opsPeople.reduce((sum, person) => sum + person.hourly.reduce((hourSum, value) => hourSum + value, 0), 0);
@@ -445,27 +375,24 @@
         (lanePeople.reduce((sum, item) => sum + getOpsAverage(item.person), 0) /
         lanePeople.reduce((sum, item) => sum + item.person.goal, 0)) * 100
       );
+      const leftPeople = lanePeople.slice(0, 3).reverse();
+      const rightPeople = lanePeople.slice(3).reverse();
 
       return `
         <section class="ops-lane" aria-label="${lane.label}">
-          <header><strong>${lane.label}</strong><span class="ops-lane-direction">ENTRADA <i></i> SAÍDA</span><b>${lanePeople.length} HC · ${laneRate}%</b></header>
+          <header><strong>${lane.label}</strong><span>BOXING · FLUXO CENTRAL</span><b>${lanePeople.length} HC · ${laneRate}%</b></header>
           <div class="ops-conveyor">
-            <div class="ops-lane-grid">
-            ${lanePeople.map(({ person, index }) => `
-              <button
-                class="ops-demo-cell${index === activeOperatorIndex ? ' is-selected' : ''}"
-                type="button"
-                data-index="${index}"
-                data-band="${getOpsBand(person)}"
-                aria-label="Ver ${person.name}, posição ${person.position}, média de ${getOpsAverage(person)} peças por hora"
-              >
-                <span class="ops-avatar" aria-hidden="true">${getOpsInitials(person.name)}</span>
-                <span class="ops-person-copy"><b>${person.position}</b><strong>${person.name}</strong><small>${person.process}</small></span>
-                <span class="ops-person-prod"><b>${getOpsAverage(person)}</b><small>pç/h</small><i aria-hidden="true"></i></span>
-              </button>
-            `).join('')}
+            <div class="ops-lane-side" data-side="left">
+              ${leftPeople.map(renderOpsPersonCard).join('')}
             </div>
-            <div class="ops-conveyor-belt" aria-hidden="true">${Array.from({ length: 18 }, () => '<i></i>').join('')}</div>
+            <div class="ops-conveyor-center" aria-hidden="true">
+              <span>IN</span>
+              <div class="ops-conveyor-track">${Array.from({ length: 7 }, () => '<i></i>').join('')}<b>↓</b></div>
+              <span>OUT</span>
+            </div>
+            <div class="ops-lane-side" data-side="right">
+              ${rightPeople.map(renderOpsPersonCard).join('')}
+            </div>
           </div>
         </section>
       `;
@@ -510,11 +437,6 @@
         `<option value="${name}"${name === person.name ? ' selected' : ''}${usedNames.has(name) && name !== person.name ? ' disabled' : ''}>${name}</option>`
       )).join('');
     }
-    if (opsProcessSelect) {
-      opsProcessSelect.innerHTML = opsDemoProcesses.map((process) => (
-        `<option value="${process}"${process === person.process ? ' selected' : ''}>${process}</option>`
-      )).join('');
-    }
     if (opsValueInput) opsValueInput.value = person.production;
     if (opsGoalInput) opsGoalInput.value = person.goal;
 
@@ -533,33 +455,8 @@
     populateOpsEditor();
   };
 
-  const renderOpsIbt = (filter = 'todos') => {
-    const list = document.querySelector('#ops-ibt-list');
-    const totals = opsIbtCases.reduce((summary, item) => {
-      summary.total += item.units;
-      summary[item.type] += item.units;
-      return summary;
-    }, { total: 0, sobra: 0, avaria: 0, falta: 0 });
-    setText('#ops-ibt-total', totals.total);
-    setText('#ops-ibt-sobra', totals.sobra);
-    setText('#ops-ibt-avaria', totals.avaria);
-    setText('#ops-ibt-falta', totals.falta);
-
-    if (!list) return;
-    const visibleCases = filter === 'todos' ? opsIbtCases : opsIbtCases.filter((item) => item.type === filter);
-    list.innerHTML = visibleCases.map((item) => `
-      <article data-type="${item.type}">
-        <span class="ops-ibt-type">${item.label}</span>
-        <div><strong>${item.id}</strong><small>${item.area} · caso fictício</small></div>
-        <b>${item.units} un.</b>
-        <p>${item.note}</p>
-      </article>
-    `).join('');
-  };
-
   renderOpsBoard();
   populateOpsEditor();
-  renderOpsIbt();
 
   board?.addEventListener('click', (event) => {
     const cell = event.target.closest('.ops-demo-cell');
@@ -573,7 +470,7 @@
     if (activeOperatorIndex === null) return;
     const person = opsPeople[activeOperatorIndex];
     person.name = opsNameSelect?.value || person.name;
-    person.process = opsProcessSelect?.value || person.process;
+    person.process = 'Boxing';
     person.production = Math.max(0, Math.min(500, Number(opsValueInput?.value || 0)));
     person.hourly[person.hourly.length - 1] = person.production;
     person.goal = Math.max(1, Math.min(500, Number(opsGoalInput?.value || 200)));
@@ -587,15 +484,5 @@
     activeOperatorIndex = null;
     opsEditor.hidden = true;
     renderOpsBoard();
-  });
-
-  document.querySelector('#ops-ibt-filters')?.addEventListener('click', (event) => {
-    const filterButton = event.target.closest('button[data-filter]');
-    if (!filterButton) return;
-    document.querySelectorAll('#ops-ibt-filters button').forEach((button) => {
-      button.classList.toggle('is-active', button === filterButton);
-    });
-    renderOpsIbt(filterButton.dataset.filter);
-    window.portfolioTrack?.('ops_demo_ibt_filter');
   });
 })();
