@@ -4,15 +4,36 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Portfólio de Lucas Echer — automação, produtos operacionais, dados e melhoria de processos.">
+  <meta name="author" content="Lucas Echer">
+  <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#f3f4ed">
+  <link rel="canonical" href="https://lucasecher-ops.github.io/portfolio/">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
   <meta property="og:title" content="Lucas Echer — Automação que resolve problemas reais">
   <meta property="og:description" content="Projetos, trajetória e impacto em automação, dados e operações.">
   <meta property="og:url" content="https://lucasecher-ops.github.io/portfolio/">
   <meta property="og:image" content="https://lucasecher-ops.github.io/portfolio/og-card.png">
   <meta property="og:image:alt" content="Composição abstrata em verde, marfim e laranja representando dados, automação e processos conectados">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lucas Echer — Automação que resolve problemas reais">
+  <meta name="twitter:description" content="Projetos, trajetória e impacto em automação, dados e operações.">
+  <meta name="twitter:image" content="https://lucasecher-ops.github.io/portfolio/og-card.png">
   <title>Lucas Echer | Automação, dados e operações</title>
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./demo.css">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Lucas Echer",
+      "url": "https://lucasecher-ops.github.io/portfolio/",
+      "image": "https://lucasecher-ops.github.io/portfolio/lucas-echer-tech.jpg",
+      "jobTitle": "Profissional de automação, dados e operações",
+      "sameAs": ["https://github.com/LucasEcher-ops"],
+      "knowsAbout": ["Automação de processos", "Análise de dados", "Operações", "Melhoria contínua", "Experiência do usuário"]
+    }
+  </script>
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -62,7 +83,7 @@
         <div class="orbit orbit-one" aria-hidden="true"></div>
         <div class="orbit orbit-two" aria-hidden="true"></div>
         <div class="portrait-card" data-depth="0.6">
-          <img src="./lucas-echer.jpg" alt="Lucas Echer durante uma atividade voluntária" width="520" height="620">
+          <img src="./lucas-echer-tech.jpg" alt="Retrato de Lucas Echer" width="520" height="620">
           <div class="portrait-caption">
             <span>Lucas Echer</span>
             <small>Processo × Produto × Pessoas</small>
@@ -73,8 +94,8 @@
           <p class="card-label">PRODUTO OPERACIONAL</p>
           <h2>Problem Solver Bot</h2>
           <div class="mini-metrics">
-            <span><strong>150+</strong> usuários</span>
-            <span><strong>7</strong> fluxos</span>
+            <span><strong>250+</strong> usuários</span>
+            <span><strong>13</strong> fluxos</span>
           </div>
           <p class="status"><span></span> em evolução contínua</p>
         </article>
@@ -258,29 +279,69 @@
           </p>
 
           <div class="project-actions">
-            <a class="button button-light" href="#impacto-bot">Ver impacto <span aria-hidden="true">↓</span></a>
+            <a class="button button-light" href="#demo-operacional">Explorar demonstração <span aria-hidden="true">↓</span></a>
             <span>18 mil+ linhas de código</span>
           </div>
         </div>
 
-        <div class="project-visual" aria-label="Representação do ecossistema do Problem Solver Bot">
-          <div class="bot-window">
+        <div class="project-visual project-visual-live" aria-label="Demonstração interativa do Problem Solver Bot">
+          <div class="demo-arrow-note" aria-hidden="true">
+            <span>que tal testar a ferramenta agora?</span>
+            <svg viewBox="0 0 190 86">
+              <path d="M7 13 C62 7 114 17 142 49 C154 63 164 67 180 62" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+              <path d="M166 54 L181 62 L168 73" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="bot-window bot-window-live">
             <div class="bot-window-bar">
               <div class="bot-brand"><span>PS</span> Problem Solver</div>
-              <div class="window-status"><span></span> online</div>
+              <div class="window-status"><span></span> simulação local</div>
             </div>
             <div class="bot-window-body">
               <div class="bot-sidebar" aria-hidden="true">
                 <span class="active"></span><span></span><span></span><span></span><span></span>
               </div>
-              <div class="bot-dashboard">
-                <p>ANÁLISE OPERACIONAL</p>
-                <div class="search-mock"><span>SKU, EAN ou ASN</span><strong>ANALISAR</strong></div>
-                <div class="dashboard-grid">
-                  <div><span>ANÁLISES</span><strong>Fluxo guiado</strong><i></i></div>
-                  <div><span>DEVICES</span><strong>Rastreabilidade</strong><i></i></div>
-                  <div><span>TRATATIVAS</span><strong>Histórico central</strong><i></i></div>
-                  <div><span>GESTÃO</span><strong>Dados por turno</strong><i></i></div>
+              <div class="bot-dashboard bot-dashboard-live">
+                <p>ANÁLISE OPERACIONAL · SIMULAÇÃO PÚBLICA</p>
+
+                <form class="search-mock demo-search" id="mini-ps-form">
+                  <label class="sr-only" for="mini-ps-input">Digite um número para gerar um caso demonstrativo</label>
+                  <input id="mini-ps-input" inputmode="numeric" autocomplete="off" maxlength="18" pattern="[0-9]{1,18}" title="Use de 1 a 18 dígitos fictícios" placeholder="digite um número fictício" required>
+                  <button type="submit">ANALISAR</button>
+                </form>
+
+                <div class="demo-case" id="mini-ps-case" aria-live="polite">
+                  <div class="demo-product">
+                    <div>
+                      <span>CASO GERADO</span>
+                      <strong id="ps-product-name">Kit Casa &amp; Organização</strong>
+                    </div>
+                    <small id="ps-case-id">SKU DEMO-102938</small>
+                  </div>
+
+                  <div class="demo-metrics">
+                    <div><span>RECEBIDO</span><strong id="ps-received">128</strong></div>
+                    <div><span>BOXING</span><strong id="ps-boxing">121</strong></div>
+                    <div><span>ARMAZENADO</span><strong id="ps-stored">109</strong></div>
+                    <div><span>FÍSICO</span><strong id="ps-physical">12</strong></div>
+                  </div>
+
+                  <div class="demo-location-grid">
+                    <div>
+                      <span class="demo-label">POSIÇÕES FÍSICAS</span>
+                      <div class="demo-chip-list" id="ps-physical-locations"></div>
+                    </div>
+                    <div>
+                      <span class="demo-label">POSIÇÕES VIRTUAIS</span>
+                      <div class="demo-chip-list demo-chip-list-virtual" id="ps-virtual-locations"></div>
+                    </div>
+                  </div>
+
+                  <div class="demo-decision" id="ps-decision">
+                    <span>LEITURA DO CASO</span>
+                    <strong>Validar diferenças e direcionar o físico restante.</strong>
+                  </div>
                 </div>
               </div>
             </div>
@@ -288,13 +349,13 @@
 
           <div class="visual-note note-users">
             <span>USUÁRIOS</span>
-            <strong>150+</strong>
-            <small>adoção orgânica</small>
+            <strong>250+</strong>
+            <small>colaboradores</small>
           </div>
           <div class="visual-note note-sites">
             <span>ALCANCE</span>
-            <strong>3 galpões</strong>
-            <small>8 setores impactados</small>
+            <strong>3 unidades</strong>
+            <small>Franco 1 · Franco 2 · Guarulhos</small>
           </div>
         </div>
       </article>
@@ -306,12 +367,51 @@
           <p>Indicadores acumulados informados para a apresentação pública do projeto.</p>
         </div>
         <div class="impact-grid">
-          <article><strong>150+</strong><span>usuários ativos</span></article>
-          <article><strong>10 mil+</strong><span>tratativas realizadas</span></article>
-          <article><strong>7</strong><span>fluxos automatizados</span></article>
-          <article><strong>8</strong><span>setores impactados</span></article>
-          <article><strong>3</strong><span>galpões atendidos</span></article>
+          <article><strong>250+</strong><span>colaboradores utilizam o Problem Solver</span></article>
+          <article><strong>21 mil+</strong><span>tratativas realizadas</span></article>
+          <article><strong>13</strong><span>fluxos automatizados</span></article>
+          <article><strong>3</strong><span>unidades: Franco 1, Franco 2 e Guarulhos</span></article>
+          <article><strong>18 mil+</strong><span>linhas no ecossistema principal</span></article>
         </div>
+      </section>
+
+      <section class="ops-showcase reveal" id="demo-operacional" aria-labelledby="ops-showcase-title">
+        <div class="ops-showcase-heading">
+          <div>
+            <p class="kicker">PAINEL DEMONSTRATIVO</p>
+            <h3 id="ops-showcase-title">Um mapa vivo da <em>operação.</em></h3>
+          </div>
+          <p>
+            Clique nas células. Os nomes e volumes são fictícios e gerados apenas para demonstrar a experiência de acompanhamento visual.
+          </p>
+        </div>
+
+        <div class="ops-demo-shell">
+          <div class="ops-demo-toolbar">
+            <div>
+              <span class="ops-demo-eyebrow">PRODUTIVIDADE POR CÉLULA</span>
+              <strong>Meta demonstrativa: 2.300</strong>
+            </div>
+            <span class="ops-demo-live"><i></i> dados fictícios</span>
+          </div>
+
+          <div class="ops-demo-stage">
+            <div class="ops-demo-board" id="ops-demo-board" aria-label="Painel demonstrativo de produtividade"></div>
+
+            <div class="ops-demo-popover" id="ops-demo-popover" hidden>
+              <button type="button" id="ops-popover-close" aria-label="Fechar detalhe">×</button>
+              <small id="ops-popover-cell">CÉLULA</small>
+              <strong id="ops-popover-name">Operador</strong>
+              <span id="ops-popover-role">Processo</span>
+              <div class="ops-demo-value"><b id="ops-popover-value">0</b> / 2.300</div>
+              <div class="ops-demo-progress"><i id="ops-popover-bar"></i></div>
+              <em id="ops-popover-percent">0%</em>
+            </div>
+          </div>
+
+          <p class="ops-demo-hint">Clique em uma célula para abrir o detalhe. Simulação local: não há atualização em tempo real nem conexão com sistemas corporativos.</p>
+        </div>
+
       </section>
 
       <div class="project-grid">
@@ -372,6 +472,7 @@
     <p>© <span id="current-year">2026</span></p>
   </footer>
 
+  <script src="./analytics.js" defer></script>
   <script src="./script.js" defer></script>
 </body>
 </html>
