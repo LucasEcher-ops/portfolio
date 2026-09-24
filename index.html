@@ -21,7 +21,7 @@
   <meta name="twitter:image" content="https://lucasecher-ops.github.io/portfolio/og-card.png">
   <title>Lucas Echer | Automação, dados e operações</title>
   <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./demo.css?v=20260924">
+  <link rel="stylesheet" href="./demo.css?v=20260924b">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -379,39 +379,82 @@
         <div class="ops-showcase-heading">
           <div>
             <p class="kicker">PAINEL DEMONSTRATIVO</p>
-            <h3 id="ops-showcase-title">Um mapa vivo da <em>operação.</em></h3>
+            <h3 id="ops-showcase-title">Uma operação que dá para <em>mover.</em></h3>
           </div>
           <p>
-            Clique nas células. Os nomes e volumes são fictícios e gerados apenas para demonstrar a experiência de acompanhamento visual.
+            Uma versão pública e simplificada de um painel de alocação: escolha uma pessoa, altere sua posição ou produtividade e acompanhe indicadores de IBT.
           </p>
         </div>
 
         <div class="ops-demo-shell">
           <div class="ops-demo-toolbar">
             <div>
-              <span class="ops-demo-eyebrow">PRODUTIVIDADE POR CÉLULA</span>
-              <strong>Meta demonstrativa: 2.300</strong>
+              <span class="ops-demo-eyebrow">ALOCAÇÃO · BOXING · TURNO DEMONSTRATIVO</span>
+              <strong>Mapa operacional simplificado</strong>
             </div>
-            <span class="ops-demo-live"><i></i> dados fictícios</span>
+            <span class="ops-demo-live"><i></i> dados 100% fictícios</span>
           </div>
 
-          <div class="ops-demo-stage">
-            <div class="ops-demo-board" id="ops-demo-board" aria-label="Painel demonstrativo de produtividade"></div>
+          <div class="ops-kpi-grid" aria-label="Resumo do turno demonstrativo">
+            <article><span>HC ATUAL</span><strong id="ops-kpi-hc">24</strong><small>pessoas alocadas</small></article>
+            <article><span>PEÇAS</span><strong id="ops-kpi-pieces">0</strong><small>volume simulado</small></article>
+            <article><span>PRODUTIVIDADE</span><strong id="ops-kpi-productivity">0%</strong><small>média do turno</small></article>
+            <article><span>META / HORA</span><strong id="ops-kpi-goal">200</strong><small>por pessoa</small></article>
+          </div>
 
-            <div class="ops-demo-popover" id="ops-demo-popover" hidden>
-              <button type="button" id="ops-popover-close" aria-label="Fechar detalhe">×</button>
-              <small id="ops-popover-cell">CÉLULA</small>
-              <strong id="ops-popover-name">Operador</strong>
-              <span id="ops-popover-role">Processo</span>
-              <div class="ops-demo-value"><b id="ops-popover-value">0</b> / 2.300</div>
+          <div class="ops-demo-layout">
+            <div class="ops-floor">
+              <div class="ops-floor-head">
+                <div><span>MAPA SIMPLIFICADO</span><strong>4 áreas · 24 posições</strong></div>
+                <div class="ops-legend" aria-label="Legenda de produtividade"><i class="good"></i> ≥100% <i class="alert"></i> 80–99% <i class="low"></i> &lt;80%</div>
+              </div>
+              <div class="ops-demo-board" id="ops-demo-board" aria-label="Pessoas e posições do turno demonstrativo"></div>
+            </div>
+
+            <form class="ops-demo-popover" id="ops-demo-popover" aria-label="Editar pessoa selecionada">
+              <button type="button" id="ops-popover-close" aria-label="Limpar seleção">×</button>
+              <small id="ops-popover-cell">POSIÇÃO</small>
+              <strong id="ops-editor-title">Editar alocação</strong>
+              <p>As alterações ficam somente nesta demonstração.</p>
+
+              <label for="ops-person-name">Pessoa fictícia</label>
+              <select id="ops-person-name"></select>
+
+              <label for="ops-person-process">Processo</label>
+              <select id="ops-person-process"></select>
+
+              <div class="ops-editor-numbers">
+                <label for="ops-person-value">Produção
+                  <input id="ops-person-value" type="number" min="0" max="500" inputmode="numeric">
+                </label>
+                <label for="ops-person-goal">Meta
+                  <input id="ops-person-goal" type="number" min="1" max="500" inputmode="numeric">
+                </label>
+              </div>
+
               <div class="ops-demo-progress"><i id="ops-popover-bar"></i></div>
               <em id="ops-popover-percent">0%</em>
-            </div>
+              <button class="ops-editor-save" type="submit">Aplicar na demonstração</button>
+              <span class="ops-save-status" id="ops-save-status" role="status"></span>
+            </form>
           </div>
 
-          <p class="ops-demo-hint">Clique em uma célula para abrir o detalhe. Simulação local: não há atualização em tempo real nem conexão com sistemas corporativos.</p>
-        </div>
+          <section class="ops-ibt" aria-labelledby="ops-ibt-title">
+            <div class="ops-ibt-heading">
+              <div><span class="ops-demo-eyebrow">IBT · TRATATIVAS</span><h4 id="ops-ibt-title">Diferenças que pedem ação.</h4></div>
+              <p>Clique em um indicador para filtrar ocorrências demonstrativas.</p>
+            </div>
+            <div class="ops-ibt-stats" id="ops-ibt-filters">
+              <button type="button" class="is-active" data-filter="todos"><span>TODOS</span><strong id="ops-ibt-total">0</strong><small>unidades</small></button>
+              <button type="button" data-filter="sobra"><span>SOBRA</span><strong id="ops-ibt-sobra">0</strong><small>unidades</small></button>
+              <button type="button" data-filter="avaria"><span>AVARIA</span><strong id="ops-ibt-avaria">0</strong><small>unidades</small></button>
+              <button type="button" data-filter="falta"><span>FALTA</span><strong id="ops-ibt-falta">0</strong><small>unidades</small></button>
+            </div>
+            <div class="ops-ibt-list" id="ops-ibt-list" aria-live="polite"></div>
+          </section>
 
+          <p class="ops-demo-hint">Simulação local, sem marcas, dados reais ou conexão com sistemas corporativos. Recarregue a página para restaurar os valores iniciais.</p>
+        </div>
       </section>
 
       <div class="project-grid">
@@ -472,7 +515,7 @@
     <p>© <span id="current-year">2026</span></p>
   </footer>
 
-  <script src="./analytics.js?v=20260924" defer></script>
-  <script src="./script.js?v=20260924" defer></script>
+  <script src="./analytics.js?v=20260924b" defer></script>
+  <script src="./script.js?v=20260924b" defer></script>
 </body>
 </html>

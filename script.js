@@ -343,4 +343,208 @@
       });
     });
   }
+
+  /* Painel de alocação simplificado — todos os dados abaixo são fictícios. */
+  const opsEditor = popover;
+  const opsNameSelect = document.querySelector('#ops-person-name');
+  const opsProcessSelect = document.querySelector('#ops-person-process');
+  const opsValueInput = document.querySelector('#ops-person-value');
+  const opsGoalInput = document.querySelector('#ops-person-goal');
+
+  const opsDemoNames = [
+    'Ana Martins', 'Bruno Lima', 'Carla Souza', 'Diego Alves',
+    'Evelyn Rocha', 'Felipe Mendes', 'Giovana Silva', 'Henrique Costa',
+    'Isabela Santos', 'João Ribeiro', 'Karen Oliveira', 'Lucas Freitas',
+    'Mariana Castro', 'Nicolas Gomes', 'Patrícia Melo', 'Rafael Nunes',
+    'Sabrina Monteiro', 'Thiago Ramos', 'Vanessa Duarte', 'William Barros',
+    'Yasmin Correia', 'Arthur Peixoto', 'Beatriz Campos', 'Caio Teixeira',
+    'Daniela Moraes', 'Eduardo Pires', 'Fernanda Lopes', 'Gabriel Tavares',
+    'Helena Azevedo', 'Igor Cardoso', 'Juliana Rezende', 'Matheus Farias'
+  ];
+  const opsDemoProcesses = ['Boxing', 'Conferência', 'Apoio', 'Tratativa IBT'];
+  const opsDemoLanes = [
+    { id: 'A', label: 'ESTEIRA A' },
+    { id: 'B', label: 'ESTEIRA B' },
+    { id: 'C', label: 'ESTEIRA C' },
+    { id: 'V', label: 'VOLUMOSO' }
+  ];
+
+  const opsRandom = seededRandom(516);
+  const opsPeople = opsDemoLanes.flatMap((lane, laneIndex) => (
+    Array.from({ length: 6 }, (_, positionIndex) => ({
+      lane: lane.id,
+      laneLabel: lane.label,
+      position: `${lane.id}${String(positionIndex + 1).padStart(2, '0')}`,
+      name: opsDemoNames[(laneIndex * 6) + positionIndex],
+      process: opsDemoProcesses[(laneIndex + positionIndex) % opsDemoProcesses.length],
+      production: randomInt(opsRandom, 138, 238),
+      goal: 200
+    }))
+  ));
+
+  const opsIbtCases = [
+    { id: 'IBT-2041', type: 'sobra', label: 'Sobra', units: 8, area: 'Esteira A', note: 'Validar origem antes da devolução ao fluxo.' },
+    { id: 'IBT-2048', type: 'falta', label: 'Falta', units: 5, area: 'Esteira C', note: 'Recontagem solicitada na posição de origem.' },
+    { id: 'IBT-2053', type: 'avaria', label: 'Avaria', units: 3, area: 'Volumoso', note: 'Material separado para avaliação de qualidade.' },
+    { id: 'IBT-2060', type: 'sobra', label: 'Sobra', units: 6, area: 'Esteira B', note: 'Conferência cruzada com o lote demonstrativo.' },
+    { id: 'IBT-2067', type: 'falta', label: 'Falta', units: 4, area: 'Esteira A', note: 'Diferença em análise com o fluxo anterior.' },
+    { id: 'IBT-2074', type: 'avaria', label: 'Avaria', units: 2, area: 'Esteira C', note: 'Aguardando classificação da ocorrência.' },
+    { id: 'IBT-2081', type: 'sobra', label: 'Sobra', units: 7, area: 'Volumoso', note: 'Pendência direcionada para tratativa local.' },
+    { id: 'IBT-2089', type: 'falta', label: 'Falta', units: 3, area: 'Esteira B', note: 'Busca iniciada em posições correlatas.' }
+  ];
+
+  let activeOperatorIndex = 2;
+
+  const getOpsBand = (person) => {
+    const rate = person.production / person.goal;
+    if (rate >= 1) return 'good';
+    if (rate >= 0.8) return 'alert';
+    return 'low';
+  };
+
+  const getOpsInitials = (name) => name.split(' ').slice(0, 2).map((part) => part[0]).join('');
+
+  const updateOpsKpis = () => {
+    const pieces = opsPeople.reduce((sum, person) => sum + person.production, 0);
+    const totalGoal = opsPeople.reduce((sum, person) => sum + person.goal, 0);
+    const productivity = Math.round((pieces / totalGoal) * 100);
+    setText('#ops-kpi-hc', opsPeople.length);
+    setText('#ops-kpi-pieces', pieces.toLocaleString('pt-BR'));
+    setText('#ops-kpi-productivity', `${productivity}%`);
+    setText('#ops-kpi-goal', Math.round(totalGoal / opsPeople.length));
+  };
+
+  const renderOpsBoard = () => {
+    if (!board) return;
+    board.innerHTML = opsDemoLanes.map((lane) => {
+      const lanePeople = opsPeople
+        .map((person, index) => ({ person, index }))
+        .filter(({ person }) => person.lane === lane.id);
+      const laneRate = Math.round(
+        (lanePeople.reduce((sum, item) => sum + item.person.production, 0) /
+        lanePeople.reduce((sum, item) => sum + item.person.goal, 0)) * 100
+      );
+
+      return `
+        <section class="ops-lane" aria-label="${lane.label}">
+          <header><strong>${lane.label}</strong><span>${lanePeople.length} HC · ${laneRate}%</span></header>
+          <div class="ops-lane-grid">
+            ${lanePeople.map(({ person, index }) => `
+              <button
+                class="ops-demo-cell${index === activeOperatorIndex ? ' is-selected' : ''}"
+                type="button"
+                data-index="${index}"
+                data-band="${getOpsBand(person)}"
+                aria-label="Editar ${person.name}, posição ${person.position}, produção ${person.production}"
+              >
+                <span class="ops-avatar" aria-hidden="true">${getOpsInitials(person.name)}</span>
+                <span class="ops-person-copy"><b>${person.position}</b><strong>${person.name}</strong><small>${person.process}</small></span>
+                <span class="ops-person-prod"><b>${person.production}</b><small>/ ${person.goal}</small><i aria-hidden="true"></i></span>
+              </button>
+            `).join('')}
+          </div>
+        </section>
+      `;
+    }).join('');
+    updateOpsKpis();
+  };
+
+  const populateOpsEditor = () => {
+    if (!opsEditor || activeOperatorIndex === null) return;
+    const person = opsPeople[activeOperatorIndex];
+    const usedNames = new Set(opsPeople.map((item) => item.name));
+
+    setText('#ops-popover-cell', `${person.laneLabel} · ${person.position}`);
+    setText('#ops-editor-title', person.name);
+    if (opsNameSelect) {
+      opsNameSelect.innerHTML = opsDemoNames.map((name) => (
+        `<option value="${name}"${name === person.name ? ' selected' : ''}${usedNames.has(name) && name !== person.name ? ' disabled' : ''}>${name}</option>`
+      )).join('');
+    }
+    if (opsProcessSelect) {
+      opsProcessSelect.innerHTML = opsDemoProcesses.map((process) => (
+        `<option value="${process}"${process === person.process ? ' selected' : ''}>${process}</option>`
+      )).join('');
+    }
+    if (opsValueInput) opsValueInput.value = person.production;
+    if (opsGoalInput) opsGoalInput.value = person.goal;
+
+    const percent = Math.min(130, Math.round((person.production / person.goal) * 100));
+    const bar = document.querySelector('#ops-popover-bar');
+    if (bar) bar.style.width = `${Math.min(100, percent)}%`;
+    setText('#ops-popover-percent', `${percent}% da meta`);
+    setText('#ops-save-status', '');
+    opsEditor.hidden = false;
+  };
+
+  const selectOpsOperator = (index) => {
+    activeOperatorIndex = index;
+    renderOpsBoard();
+    populateOpsEditor();
+  };
+
+  const renderOpsIbt = (filter = 'todos') => {
+    const list = document.querySelector('#ops-ibt-list');
+    const totals = opsIbtCases.reduce((summary, item) => {
+      summary.total += item.units;
+      summary[item.type] += item.units;
+      return summary;
+    }, { total: 0, sobra: 0, avaria: 0, falta: 0 });
+    setText('#ops-ibt-total', totals.total);
+    setText('#ops-ibt-sobra', totals.sobra);
+    setText('#ops-ibt-avaria', totals.avaria);
+    setText('#ops-ibt-falta', totals.falta);
+
+    if (!list) return;
+    const visibleCases = filter === 'todos' ? opsIbtCases : opsIbtCases.filter((item) => item.type === filter);
+    list.innerHTML = visibleCases.map((item) => `
+      <article data-type="${item.type}">
+        <span class="ops-ibt-type">${item.label}</span>
+        <div><strong>${item.id}</strong><small>${item.area} · caso fictício</small></div>
+        <b>${item.units} un.</b>
+        <p>${item.note}</p>
+      </article>
+    `).join('');
+  };
+
+  renderOpsBoard();
+  populateOpsEditor();
+  renderOpsIbt();
+
+  board?.addEventListener('click', (event) => {
+    const cell = event.target.closest('.ops-demo-cell');
+    if (!cell) return;
+    selectOpsOperator(Number(cell.dataset.index));
+    window.portfolioTrack?.('ops_demo_person_edit');
+  });
+
+  opsEditor?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (activeOperatorIndex === null) return;
+    const person = opsPeople[activeOperatorIndex];
+    person.name = opsNameSelect?.value || person.name;
+    person.process = opsProcessSelect?.value || person.process;
+    person.production = Math.max(0, Math.min(500, Number(opsValueInput?.value || 0)));
+    person.goal = Math.max(1, Math.min(500, Number(opsGoalInput?.value || 200)));
+    renderOpsBoard();
+    populateOpsEditor();
+    setText('#ops-save-status', 'Atualizado somente nesta simulação ✓');
+    window.portfolioTrack?.('ops_demo_person_update');
+  });
+
+  popoverClose?.addEventListener('click', () => {
+    activeOperatorIndex = null;
+    opsEditor.hidden = true;
+    renderOpsBoard();
+  });
+
+  document.querySelector('#ops-ibt-filters')?.addEventListener('click', (event) => {
+    const filterButton = event.target.closest('button[data-filter]');
+    if (!filterButton) return;
+    document.querySelectorAll('#ops-ibt-filters button').forEach((button) => {
+      button.classList.toggle('is-active', button === filterButton);
+    });
+    renderOpsIbt(filterButton.dataset.filter);
+    window.portfolioTrack?.('ops_demo_ibt_filter');
+  });
 })();
