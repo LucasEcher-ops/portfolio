@@ -368,18 +368,26 @@
     { id: 'C', label: 'ESTEIRA C' },
     { id: 'V', label: 'VOLUMOSO' }
   ];
+  const opsHours = ['06h', '07h', '08h', '09h', '10h', '11h', '12h', '13h'];
 
   const opsRandom = seededRandom(516);
   const opsPeople = opsDemoLanes.flatMap((lane, laneIndex) => (
-    Array.from({ length: 6 }, (_, positionIndex) => ({
-      lane: lane.id,
-      laneLabel: lane.label,
-      position: `${lane.id}${String(positionIndex + 1).padStart(2, '0')}`,
-      name: opsDemoNames[(laneIndex * 6) + positionIndex],
-      process: opsDemoProcesses[(laneIndex + positionIndex) % opsDemoProcesses.length],
-      production: randomInt(opsRandom, 138, 238),
-      goal: 200
-    }))
+    Array.from({ length: 6 }, (_, positionIndex) => {
+      const baseProduction = randomInt(opsRandom, 158, 228);
+      const hourly = opsHours.map((_, hourIndex) => (
+        Math.max(95, baseProduction + randomInt(opsRandom, -28, 30) + (hourIndex === 0 ? -18 : 0))
+      ));
+      return {
+        lane: lane.id,
+        laneLabel: lane.label,
+        position: `${lane.id}${String(positionIndex + 1).padStart(2, '0')}`,
+        name: opsDemoNames[(laneIndex * 6) + positionIndex],
+        process: opsDemoProcesses[(laneIndex + positionIndex) % opsDemoProcesses.length],
+        production: hourly.at(-1),
+        hourly,
+        goal: 200
+      };
+    })
   ));
 
   const opsIbtCases = [
@@ -395,8 +403,12 @@
 
   let activeOperatorIndex = 2;
 
+  const getOpsAverage = (person) => (
+    Math.round(person.hourly.reduce((sum, value) => sum + value, 0) / person.hourly.length)
+  );
+
   const getOpsBand = (person) => {
-    const rate = person.production / person.goal;
+    const rate = getOpsAverage(person) / person.goal;
     if (rate >= 1) return 'good';
     if (rate >= 0.8) return 'alert';
     return 'low';
@@ -405,13 +417,22 @@
   const getOpsInitials = (name) => name.split(' ').slice(0, 2).map((part) => part[0]).join('');
 
   const updateOpsKpis = () => {
-    const pieces = opsPeople.reduce((sum, person) => sum + person.production, 0);
-    const totalGoal = opsPeople.reduce((sum, person) => sum + person.goal, 0);
+    const pieces = opsPeople.reduce((sum, person) => sum + person.hourly.reduce((hourSum, value) => hourSum + value, 0), 0);
+    const totalGoal = opsPeople.reduce((sum, person) => sum + (person.goal * person.hourly.length), 0);
     const productivity = Math.round((pieces / totalGoal) * 100);
+    const averageHourly = Math.round(pieces / (opsPeople.length * opsHours.length));
     setText('#ops-kpi-hc', opsPeople.length);
     setText('#ops-kpi-pieces', pieces.toLocaleString('pt-BR'));
-    setText('#ops-kpi-productivity', `${productivity}%`);
-    setText('#ops-kpi-goal', Math.round(totalGoal / opsPeople.length));
+    setText('#ops-kpi-productivity', averageHourly);
+    setText('#ops-kpi-goal', Math.round(totalGoal / (opsPeople.length * opsHours.length)));
+    setText('#ops-goal-percent', `${productivity}%`);
+    setText('#ops-goal-ring-value', `${productivity}%`);
+    setText('#ops-goal-status', productivity >= 100 ? 'meta superada' : productivity >= 90 ? 'ritmo saudável' : 'atenção ao ritmo');
+    setText('#ops-goal-summary', `${pieces.toLocaleString('pt-BR')} de ${totalGoal.toLocaleString('pt-BR')} peças previstas até agora.`);
+    const goalRing = document.querySelector('#ops-goal-ring');
+    const goalTrack = document.querySelector('#ops-goal-track-bar');
+    if (goalRing) goalRing.style.setProperty('--goal-angle', `${Math.min(100, productivity) * 3.6}deg`);
+    if (goalTrack) goalTrack.style.width = `${Math.min(100, productivity)}%`;
   };
 
   const renderOpsBoard = () => {
@@ -421,32 +442,60 @@
         .map((person, index) => ({ person, index }))
         .filter(({ person }) => person.lane === lane.id);
       const laneRate = Math.round(
-        (lanePeople.reduce((sum, item) => sum + item.person.production, 0) /
+        (lanePeople.reduce((sum, item) => sum + getOpsAverage(item.person), 0) /
         lanePeople.reduce((sum, item) => sum + item.person.goal, 0)) * 100
       );
 
       return `
         <section class="ops-lane" aria-label="${lane.label}">
-          <header><strong>${lane.label}</strong><span>${lanePeople.length} HC · ${laneRate}%</span></header>
-          <div class="ops-lane-grid">
+          <header><strong>${lane.label}</strong><span class="ops-lane-direction">ENTRADA <i></i> SAÍDA</span><b>${lanePeople.length} HC · ${laneRate}%</b></header>
+          <div class="ops-conveyor">
+            <div class="ops-lane-grid">
             ${lanePeople.map(({ person, index }) => `
               <button
                 class="ops-demo-cell${index === activeOperatorIndex ? ' is-selected' : ''}"
                 type="button"
                 data-index="${index}"
                 data-band="${getOpsBand(person)}"
-                aria-label="Editar ${person.name}, posição ${person.position}, produção ${person.production}"
+                aria-label="Ver ${person.name}, posição ${person.position}, média de ${getOpsAverage(person)} peças por hora"
               >
                 <span class="ops-avatar" aria-hidden="true">${getOpsInitials(person.name)}</span>
                 <span class="ops-person-copy"><b>${person.position}</b><strong>${person.name}</strong><small>${person.process}</small></span>
-                <span class="ops-person-prod"><b>${person.production}</b><small>/ ${person.goal}</small><i aria-hidden="true"></i></span>
+                <span class="ops-person-prod"><b>${getOpsAverage(person)}</b><small>pç/h</small><i aria-hidden="true"></i></span>
               </button>
             `).join('')}
+            </div>
+            <div class="ops-conveyor-belt" aria-hidden="true">${Array.from({ length: 18 }, () => '<i></i>').join('')}</div>
           </div>
         </section>
       `;
     }).join('');
     updateOpsKpis();
+  };
+
+  const renderOpsPersonPerformance = (person) => {
+    const total = person.hourly.reduce((sum, value) => sum + value, 0);
+    const average = getOpsAverage(person);
+    const best = Math.max(...person.hourly);
+    const bestIndex = person.hourly.indexOf(best);
+    const chart = document.querySelector('#ops-hourly-chart');
+    setText('#ops-person-total', total.toLocaleString('pt-BR'));
+    setText('#ops-person-average', average);
+    setText('#ops-person-best', best);
+    setText('#ops-person-best-hour', opsHours[bestIndex]);
+    if (!chart) return;
+    const ceiling = Math.max(person.goal, best, 1);
+    chart.innerHTML = person.hourly.map((value, index) => {
+      const height = Math.max(12, Math.round((value / ceiling) * 100));
+      const rate = Math.round((value / person.goal) * 100);
+      return `
+        <div class="ops-hour" title="${opsHours[index]}: ${value} peças (${rate}% da meta)">
+          <b>${value}</b>
+          <span><i style="height:${Math.min(100, height)}%" data-band="${rate >= 100 ? 'good' : rate >= 80 ? 'alert' : 'low'}"></i></span>
+          <small>${opsHours[index]}</small>
+        </div>
+      `;
+    }).join('');
   };
 
   const populateOpsEditor = () => {
@@ -469,10 +518,11 @@
     if (opsValueInput) opsValueInput.value = person.production;
     if (opsGoalInput) opsGoalInput.value = person.goal;
 
-    const percent = Math.min(130, Math.round((person.production / person.goal) * 100));
+    const percent = Math.min(130, Math.round((getOpsAverage(person) / person.goal) * 100));
     const bar = document.querySelector('#ops-popover-bar');
     if (bar) bar.style.width = `${Math.min(100, percent)}%`;
     setText('#ops-popover-percent', `${percent}% da meta`);
+    renderOpsPersonPerformance(person);
     setText('#ops-save-status', '');
     opsEditor.hidden = false;
   };
@@ -525,6 +575,7 @@
     person.name = opsNameSelect?.value || person.name;
     person.process = opsProcessSelect?.value || person.process;
     person.production = Math.max(0, Math.min(500, Number(opsValueInput?.value || 0)));
+    person.hourly[person.hourly.length - 1] = person.production;
     person.goal = Math.max(1, Math.min(500, Number(opsGoalInput?.value || 200)));
     renderOpsBoard();
     populateOpsEditor();

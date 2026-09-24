@@ -21,7 +21,7 @@
   <meta name="twitter:image" content="https://lucasecher-ops.github.io/portfolio/og-card.png">
   <title>Lucas Echer | Automação, dados e operações</title>
   <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./demo.css?v=20260924b">
+  <link rel="stylesheet" href="./demo.css?v=20260924d">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -390,22 +390,34 @@
           <div class="ops-demo-toolbar">
             <div>
               <span class="ops-demo-eyebrow">ALOCAÇÃO · BOXING · TURNO DEMONSTRATIVO</span>
-              <strong>Mapa operacional simplificado</strong>
+              <strong>Esteiras do turno</strong>
             </div>
             <span class="ops-demo-live"><i></i> dados 100% fictícios</span>
           </div>
 
+          <section class="ops-goal-banner" aria-label="Atingimento da meta do turno">
+            <div class="ops-goal-copy">
+              <span>META DO TURNO</span>
+              <div><strong id="ops-goal-percent">0%</strong><em id="ops-goal-status">em andamento</em></div>
+              <p id="ops-goal-summary">Calculando a produção demonstrativa...</p>
+            </div>
+            <div class="ops-goal-visual" aria-hidden="true">
+              <div class="ops-goal-ring" id="ops-goal-ring"><b id="ops-goal-ring-value">0%</b><small>atingido</small></div>
+              <div class="ops-goal-track"><i id="ops-goal-track-bar"></i></div>
+            </div>
+          </section>
+
           <div class="ops-kpi-grid" aria-label="Resumo do turno demonstrativo">
             <article><span>HC ATUAL</span><strong id="ops-kpi-hc">24</strong><small>pessoas alocadas</small></article>
-            <article><span>PEÇAS</span><strong id="ops-kpi-pieces">0</strong><small>volume simulado</small></article>
-            <article><span>PRODUTIVIDADE</span><strong id="ops-kpi-productivity">0%</strong><small>média do turno</small></article>
+            <article><span>PEÇAS NO TURNO</span><strong id="ops-kpi-pieces">0</strong><small>volume acumulado</small></article>
+            <article><span>MÉDIA / HORA</span><strong id="ops-kpi-productivity">0</strong><small>por pessoa</small></article>
             <article><span>META / HORA</span><strong id="ops-kpi-goal">200</strong><small>por pessoa</small></article>
           </div>
 
           <div class="ops-demo-layout">
             <div class="ops-floor">
               <div class="ops-floor-head">
-                <div><span>MAPA SIMPLIFICADO</span><strong>4 áreas · 24 posições</strong></div>
+                <div><span>FLUXO DA OPERAÇÃO</span><strong>4 esteiras · 24 posições</strong></div>
                 <div class="ops-legend" aria-label="Legenda de produtividade"><i class="good"></i> ≥100% <i class="alert"></i> 80–99% <i class="low"></i> &lt;80%</div>
               </div>
               <div class="ops-demo-board" id="ops-demo-board" aria-label="Pessoas e posições do turno demonstrativo"></div>
@@ -424,16 +436,30 @@
               <select id="ops-person-process"></select>
 
               <div class="ops-editor-numbers">
-                <label for="ops-person-value">Produção
+                <label for="ops-person-value">Produção na última hora
                   <input id="ops-person-value" type="number" min="0" max="500" inputmode="numeric">
                 </label>
-                <label for="ops-person-goal">Meta
+                <label for="ops-person-goal">Meta por hora
                   <input id="ops-person-goal" type="number" min="1" max="500" inputmode="numeric">
                 </label>
               </div>
 
               <div class="ops-demo-progress"><i id="ops-popover-bar"></i></div>
               <em id="ops-popover-percent">0%</em>
+
+              <section class="ops-person-performance" aria-labelledby="ops-person-performance-title">
+                <div class="ops-person-performance-head">
+                  <div><span>DESEMPENHO INDIVIDUAL</span><strong id="ops-person-performance-title">Produção por hora</strong></div>
+                  <small>turno fictício</small>
+                </div>
+                <div class="ops-person-summary">
+                  <article><span>TOTAL</span><strong id="ops-person-total">0</strong><small>peças</small></article>
+                  <article><span>MÉDIA/H</span><strong id="ops-person-average">0</strong><small>peças</small></article>
+                  <article><span>MELHOR HORA</span><strong id="ops-person-best">0</strong><small id="ops-person-best-hour">--</small></article>
+                </div>
+                <div class="ops-hourly-chart" id="ops-hourly-chart" aria-label="Gráfico de produção por hora"></div>
+              </section>
+
               <button class="ops-editor-save" type="submit">Aplicar na demonstração</button>
               <span class="ops-save-status" id="ops-save-status" role="status"></span>
             </form>
@@ -515,7 +541,7 @@
     <p>© <span id="current-year">2026</span></p>
   </footer>
 
-  <script src="./analytics.js?v=20260924b" defer></script>
-  <script src="./script.js?v=20260924b" defer></script>
+  <script src="./analytics.js?v=20260924d" defer></script>
+  <script src="./script.js?v=20260924d" defer></script>
 </body>
 </html>
